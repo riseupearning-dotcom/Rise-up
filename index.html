@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise Up | Secured Leader Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        #mainContent { display: none; }
+        .login-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div id="loginOverlay" class="login-bg fixed inset-0 flex items-center justify-center z-[9999] px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-full border-t-4 border-blue-500">
+            <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" alt="Logo" class="h-20 mx-auto mb-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800 uppercase tracking-tight">Rise Up</h2>
+            <p class="text-gray-500 text-sm mb-6">Access reserved for Leaders only.</p>
+            
+            <div class="relative mb-4">
+                <input type="password" id="leaderCodeInput" 
+                    class="w-full border-2 border-gray-200 p-3 rounded-xl text-center text-2xl tracking-[0.5em] outline-none focus:border-blue-600 transition-all uppercase" 
+                    placeholder="****" maxlength="4">
+            </div>
+
+            <button onclick="checkCode()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-800 shadow-lg active:scale-95 transition-all">
+                Verify Identity
+            </button>
+            <p id="errorMsg" class="text-red-500 mt-4 hidden text-sm font-medium italic">
+                <i class="fas fa-exclamation-triangle mr-1"></i> Invalid Leader Code!
+            </p>
+        </div>
+    </div>
+
+    <div id="mainContent">
+        <nav class="bg-white shadow-md fixed w-full z-10">
+            <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" alt="Logo" class="h-10 w-auto rounded">
+                    <span class="text-xl font-bold text-blue-900 tracking-wider">RISE UP</span>
+                </div>
+                <button onclick="logout()" class="bg-red-50 text-red-600 px-4 py-1 rounded-full text-sm font-bold border border-red-200 hover:bg-red-600 hover:text-white transition">
+                    LOGOUT
+                </button>
+            </div>
+        </nav>
+
+        <section class="hero-gradient pt-32 pb-20 px-4 text-white text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Rise Up Leader Panel</h1>
+                <p class="text-lg opacity-90 mb-8">Welcome back! Aapka portal ab puri tarah se active hai.</p>
+            </div>
+        </section>
+
+        <section class="py-12 px-4 max-w-6xl mx-auto -mt-10">
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center border-b-4 border-blue-500">
+                    <i class="fas fa-users text-blue-500 text-3xl mb-3"></i>
+                    <h3 class="font-bold text-gray-800">Community</h3>
+                    <p class="text-gray-500 text-sm">Connect with others.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center border-b-4 border-green-500">
+                    <i class="fas fa-shield-alt text-green-500 text-3xl mb-3"></i>
+                    <h3 class="font-bold text-gray-800">Secured</h3>
+                    <p class="text-gray-500 text-sm">Fully encrypted access.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center border-b-4 border-purple-500">
+                    <i class="fas fa-bolt text-purple-500 text-3xl mb-3"></i>
+                    <h3 class="font-bold text-gray-800">Fast</h3>
+                    <p class="text-gray-500 text-sm">Real-time notifications.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 px-4">
+            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-2xl p-8">
+                <h2 class="text-2xl font-bold text-center mb-6 text-blue-900">Send Telegram Alert</h2>
+                <div class="space-y-4">
+                    <input type="text" id="userName" placeholder="Apna Naam" class="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
+                    <textarea id="userMsg" rows="4" placeholder="Message likhein..." class="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"></textarea>
+                    <button onclick="sendAlert()" id="btnText" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fab fa-telegram-plane"></i> Send to Telegram
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-900 text-white py-8 text-center text-sm opacity-60">
+            <p>&copy; 2025 RISE UP | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        // AAPKE 50 SECURE CODES
+        const validCodes = [
+            "AK01", "SY02", "RK45", "UP11", "RZ07", "BT99", "MK23", "LD50", "JS08", "VR14", 
+            "NP21", "GX33", "HF67", "TW04", "QM19", "XP82", "BN55", "KL09", "JH41", "RS22", 
+            "GD03", "PL76", "MC12", "VB88", "XF31", "TR05", "NW66", "KJ47", "ML10", "AZ92", 
+            "HQ54", "SP18", "DR73", "WF29", "BK06", "YV61", "XT38", "NR15", "LC44", "GT27", 
+            "PM02", "FR81", "JU13", "WE59", "KY37", "OA84", "IV17", "ME52", "ZG08", "RU25"
+        ];
+
+        // Check function
+        function checkCode() {
+            const input = document.getElementById('leaderCodeInput').value.toUpperCase();
+            const error = document.getElementById('errorMsg');
+            
+            if (validCodes.includes(input)) {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.getElementById('mainContent').style.display = 'block';
+                sessionStorage.setItem("isRiseUpLeader", "true");
+            } else {
+                error.classList.remove('hidden');
+                document.getElementById('leaderCodeInput').value = "";
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem("isRiseUpLeader");
+            location.reload();
+        }
+
+        // Auto-login check
+        if(sessionStorage.getItem("isRiseUpLeader") === "true") {
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        // Telegram Logic
+        function sendAlert() {
+            const token = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
+            const chatId = "8312452063";
+            const name = document.getElementById('userName').value;
+            const msg = document.getElementById('userMsg').value;
+            const btn = document.getElementById('btnText');
+
+            if(!name || !msg) { alert("Details bharein!"); return; }
+
+            btn.disabled = true;
+            btn.innerHTML = "Sending...";
+
+            const text = `🔥 *RISE UP NOTIFICATION*\n\n👤 *From:* ${name}\n💬 *Message:* ${msg}`;
+            
+            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=Markdown`)
+            .then(res => {
+                alert("Message Sent to Admin!");
+                document.getElementById('userName').value = "";
+                document.getElementById('userMsg').value = "";
+            })
+            .catch(e => alert("Error!"))
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fab fa-telegram-plane"></i> Send to Telegram';
+            });
+        }
+    </script>
+</body>
+</html>
