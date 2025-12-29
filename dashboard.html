@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise Up | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #f8f9fa; color: #1a1a1a; padding-bottom: 50px; }
+
+        header {
+            background: #fff; padding: 20px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 1px solid #eee;
+            position: sticky; top: 0; z-index: 100;
+        }
+        header h1 { font-size: 22px; font-weight: 800; }
+
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+
+        /* --- Stats Card --- */
+        .stats-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-card {
+            background: #fff; padding: 25px; border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #f1f1f1;
+        }
+        .stat-card label { color: #95a5a6; font-size: 14px; font-weight: 700; text-transform: uppercase; }
+        .stat-card h2 { font-size: 35px; font-weight: 800; margin-top: 5px; }
+
+        /* --- Data Claim Section --- */
+        .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        .portal-group {
+            background: #fff; border-radius: 20px; padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #f1f1f1;
+        }
+        .portal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px;
+        }
+        .portal-name { font-size: 18px; font-weight: 800; color: #000; }
+        .claim-count { font-size: 13px; color: #7f8c8d; font-weight: 600; background: #f0f2f5; padding: 4px 10px; border-radius: 20px; }
+
+        /* --- Table Styling --- */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; font-size: 11px; color: #adb5bd; text-transform: uppercase; padding-bottom: 10px; }
+        td { padding: 12px 0; font-size: 14px; font-weight: 700; border-bottom: 1px solid #fcfcfc; }
+        
+        .client-num { color: #1a1a1a; letter-spacing: 0.5px; }
+        .owner-code { color: #6c757d; font-size: 13px; }
+        
+        /* Status Badges */
+        .badge { padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+        .status-done { background: #e6fcf5; color: #0ca678; }
+        .status-not-done { background: #fff5f5; color: #fa5252; }
+
+        .empty-state { text-align: center; padding: 40px; color: #adb5bd; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <i class="fa-solid fa-bars" style="font-size:20px;"></i>
+            <h1>Dashboard</h1>
+        </div>
+        <i class="fa-solid fa-right-from-bracket" style="font-size:20px; color:#fa5252;"></i>
+    </header>
+
+    <main class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <label>Total Data Claims</label>
+                <h2 id="totalCount">04</h2>
+            </div>
+        </div>
+
+        <div class="section-title">Data Claims Details</div>
+
+        <div class="portal-group">
+            <div class="portal-header">
+                <div class="portal-name">Upstox</div>
+                <div class="claim-count">(1 claims)</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:10%">S.N</th>
+                        <th style="width:40%">Client Number</th>
+                        <th style="width:30%">Owner</th>
+                        <th style="width:20%">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="client-num">9241102XXX</td>
+                        <td class="owner-code">RU-101</td>
+                        <td><span class="badge status-done">Done</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="portal-group">
+            <div class="portal-header">
+                <div class="portal-name">Angel One</div>
+                <div class="claim-count">(2 claims)</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Client Number</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="client-num">8822334XXX</td>
+                        <td class="owner-code">RU-505</td>
+                        <td><span class="badge status-not-done">Not Done</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="client-num">7002341XXX</td>
+                        <td class="owner-code">RU-101</td>
+                        <td><span class="badge status-done">Done</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="portal-group">
+            <div class="portal-header">
+                <div class="portal-name">Mstock</div>
+                <div class="claim-count">(1 claims)</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Client Number</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="client-num">9933445XXX</td>
+                        <td class="owner-code">RU-202</td>
+                        <td><span class="badge status-not-done">Not Done</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <script>
+        // Real-time update logic (Sample)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Yahan hum LocalStorage ya Database se data fetch karke 
+            // tables ko update kar sakte hain.
+            console.log("Dashboard Loaded");
+        });
+    </script>
+</body>
+</html>
