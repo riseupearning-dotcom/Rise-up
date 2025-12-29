@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise Up | Data Claim</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #fcfcfc; color: #1a1a1a; overflow-x: hidden; }
+
+        /* --- Header --- */
+        header {
+            background: #fff; padding: 18px 25px; display: flex; align-items: center;
+            border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100;
+        }
+        .back-btn { font-size: 22px; cursor: pointer; color: #333; text-decoration: none; margin-right: 20px; }
+        header h1 { font-size: 22px; font-weight: 700; flex: 1; text-align: center; margin-right: 42px; }
+
+        .container { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; gap: 25px; }
+
+        /* --- Main Input Card --- */
+        .data-card {
+            background: #fff; border-radius: 25px; padding: 35px 25px;
+            width: 100%; max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #f1f1f1;
+        }
+        .data-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 25px; }
+
+        .session-alert {
+            background-color: #f0fff4; border: 1px solid #c6f6d5; color: #22543d;
+            padding: 18px; border-radius: 12px; display: flex; align-items: center; gap: 12px;
+            margin-bottom: 25px; font-size: 15px; font-weight: 600;
+        }
+
+        select, input {
+            width: 100%; padding: 16px; border: 1.5px solid #e2e8f0; border-radius: 12px;
+            font-size: 16px; outline: none; background: #fff; margin-bottom: 18px; font-weight: 600;
+        }
+
+        .btn-claim-search {
+            width: 100%; background: #4b4b4b; color: #fff; border: none;
+            padding: 16px; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer;
+        }
+
+        /* --- Result Section (Jo search ke baad khulega) --- */
+        #resultSection {
+            display: none; width: 100%; max-width: 500px; background: #fff;
+            border-radius: 25px; padding: 35px 25px; border: 1px solid #f1f1f1;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-top: -10px;
+        }
+        .portal-header { font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; color: #000; letter-spacing: 1px; }
+        .detail-row { margin-bottom: 25px; }
+        .detail-row label { font-size: 13px; color: #95a5a6; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .detail-row p { font-size: 20px; font-weight: 700; color: #1a1a1a; }
+
+        .claim-box-title { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+        .btn-final-claim { background: #000; color: #fff; width: 100%; padding: 18px; border-radius: 12px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; }
+
+        @media (max-width: 500px) { .portal-header { font-size: 26px; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="home.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h1>Data Claim</h1>
+    </header>
+
+    <main class="container">
+        <div class="data-card" id="searchBox">
+            <h2>Get Client Details</h2>
+            <div class="session-alert">
+                <i class="fa-regular fa-clock"></i>
+                <span>Session is active. You can claim clients.</span>
+            </div>
+
+            <select id="portalSelect">
+                <option value="" disabled selected>Select Portal</option>
+                <option value="Angel One">Angel One</option>
+                <option value="Mstock">Mstock</option>
+                <option value="Jainam">Jainam</option>
+                <option value="Upstox">Upstox</option>
+                <option value="Motilal Oswal">Motilal Oswal</option>
+            </select>
+
+            <input type="number" id="clientPhone" placeholder="Enter Client Mobile Number">
+            <button class="btn-claim-search" onclick="showClientDetails()">Claim</button>
+        </div>
+
+        <div id="resultSection">
+            <h1 class="portal-header" id="displayPortal">UPSTOX</h1>
+            
+            <div class="detail-row">
+                <label>Phone Number</label>
+                <p id="displayPhone">9241102626</p>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #f0f0f0; margin-bottom: 25px;">
+
+            <div class="claim-box-title">
+                <i class="fa-solid fa-user-plus"></i> Claim This Client
+            </div>
+
+            <input type="text" id="leaderCodeInput" placeholder="Enter Leader Code">
+            <input type="number" id="leaderPhoneInput" placeholder="Your Phone Number">
+            
+            <button class="btn-final-claim" onclick="finalClaimProcess()">Add Me as Owner</button>
+        </div>
+    </main>
+
+    <script>
+        // Search Button dabane par client details dikhao
+        function showClientDetails() {
+            const portal = document.getElementById('portalSelect').value;
+            const phone = document.getElementById('clientPhone').value;
+
+            if(!portal || !phone) {
+                alert("Pehle Portal aur Number bhariye!");
+                return;
+            }
+
+            // UI Changes
+            document.getElementById('displayPortal').innerText = portal;
+            document.getElementById('displayPhone').innerText = phone;
+            document.getElementById('resultSection').style.display = 'block';
+            
+            // Auto-fill Leader Code from LocalStorage
+            const savedCode = localStorage.getItem('userCode') || "";
+            document.getElementById('leaderCodeInput').value = savedCode;
+
+            // Scroll to result
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        // Final Claim function
+        function finalClaimProcess() {
+            const leaderCode = document.getElementById('leaderCodeInput').value;
+            if(!leaderCode) return alert("Leader Code zaroori hai!");
+
+            alert("Claim Successful! Dashboard check karein.");
+            window.location.href = "home.html"; 
+        }
+
+        // Back button support
+        window.onpopstate = function() {
+            window.location.href = "home.html";
+        };
+    </script>
+</body>
+</html>
