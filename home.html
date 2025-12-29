@@ -3,183 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rise Up | Pro Dashboard</title>
+    <title>Rise Up | Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        /* --- Reset & Core Style --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #fcfcfc; color: #1a1a1a; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: #f0f2f5; color: #1a1c1e; overflow-x: hidden; }
+        /* --- Clean Header --- */
+        header {
+            background: #fff;
+            padding: 18px 25px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .menu-btn { font-size: 22px; cursor: pointer; border: none; background: none; color: #333; }
+        header h1 { font-size: 24px; font-weight: 700; flex: 1; text-align: center; margin-right: 22px; letter-spacing: -0.5px; }
 
-        /* --- Stylish Sidebar (Grow Up Inspired) --- */
+        /* --- Professional Sidebar --- */
         .sidebar {
-            position: fixed; top: 0; left: -100%; width: 290px; height: 100%;
-            background: #ffffff; z-index: 1001; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 25px; box-shadow: 15px 0 40px rgba(0,0,0,0.04);
+            position: fixed; top: 0; left: -100%; width: 310px; height: 100%;
+            background: #fff; z-index: 1001; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 40px 25px; box-shadow: 15px 0 40px rgba(0,0,0,0.06);
         }
         .sidebar.active { left: 0; }
         
-        .sidebar-header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 35px; padding-bottom: 15px; border-bottom: 2px solid #f8f9fa;
+        .user-profile {
+            display: flex; align-items: center; gap: 15px;
+            margin-bottom: 45px; padding-bottom: 25px; border-bottom: 1px solid #f5f5f5;
         }
-        .brand-name { font-size: 24px; font-weight: 800; color: #6366f1; }
-        
-        .user-profile-box {
-            background: #f8faff; border-radius: 20px; padding: 20px;
-            display: flex; align-items: center; gap: 15px; margin-bottom: 30px;
-            border: 1px solid #eef2ff;
-        }
-        .avatar { width: 45px; height: 45px; background: #6366f1; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
-        .user-profile-box p { font-size: 11px; color: #8b949e; font-weight: 700; text-transform: uppercase; }
-        .user-profile-box h3 { font-size: 16px; font-weight: 800; }
+        .user-profile i { font-size: 45px; color: #2d3436; }
+        .user-info p { font-size: 12px; color: #95a5a6; font-weight: 700; text-transform: uppercase; }
+        .user-info h3 { font-size: 20px; font-weight: 800; color: #1a1a1a; }
 
-        .nav-menu { list-style: none; }
-        .nav-item { margin-bottom: 8px; }
+        .sidebar-nav { list-style: none; }
         .nav-link {
-            display: flex; align-items: center; gap: 15px; padding: 14px 18px;
-            text-decoration: none; color: #5c677d; font-weight: 600; font-size: 15px;
-            border-radius: 15px; transition: 0.3s;
+            display: flex; align-items: center; gap: 18px;
+            padding: 20px 22px; text-decoration: none;
+            color: #4b4b4b; font-weight: 600; font-size: 19px; /* Bade Options */
+            border-radius: 14px; margin-bottom: 12px; transition: 0.2s;
         }
-        .nav-link i { font-size: 1.2rem; transition: 0.3s; }
-        .nav-link.active { background: #6366f115; color: #6366f1; }
-        .nav-link.active::before { content: ''; position: absolute; left: 0; height: 25px; width: 4px; background: #6366f1; border-radius: 0 5px 5px 0; }
-        .nav-link:hover { background: #f0f2f5; color: #6366f1; }
+        .nav-link.active { background: #f8faff; color: #000; border-left: 5px solid #000; }
+        .nav-link i { font-size: 22px; width: 30px; text-align: center; }
+        .nav-link:hover { background: #f9f9f9; }
 
-        /* --- Header & Container --- */
-        header {
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
-            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #e2e8f0;
+        /* --- Large Performance Card --- */
+        .main-content { padding: 40px 20px; display: flex; justify-content: center; }
+        .performance-card {
+            background: #fff; border-radius: 30px; padding: 50px 40px;
+            width: 100%; max-width: 650px; /* Card Bada Kar Diya */
+            box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #f1f1f1;
+            text-align: left;
         }
-        .menu-toggle { font-size: 1.4rem; cursor: pointer; color: #1e293b; }
+        .performance-card h2 { font-size: 28px; font-weight: 800; margin-bottom: 15px; color: #000; }
+        .performance-card p { font-size: 16px; color: #636e72; margin-bottom: 40px; line-height: 1.7; }
 
-        .container { padding: 25px 20px; max-width: 1000px; margin: 0 auto; }
-
-        /* --- Stats Cards (Aapka Naya Addition) --- */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
-        .stat-card {
-            background: white; padding: 20px; border-radius: 22px;
-            border: 1px solid #edf2f7; box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+        /* --- Search Area --- */
+        .search-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .search-group input {
+            flex: 1; min-width: 250px; padding: 18px 22px; border: 1.5px solid #e0e0e0;
+            border-radius: 16px; outline: none; font-size: 16px;
+            background: #fafafa; text-transform: uppercase; font-weight: 700;
+            transition: 0.3s;
         }
-        .stat-card i { font-size: 1.5rem; color: #6366f1; margin-bottom: 12px; display: block; }
-        .stat-card span { font-size: 12px; color: #64748b; font-weight: 600; }
-        .stat-card h4 { font-size: 18px; font-weight: 800; margin-top: 4px; }
-
-        /* --- Search Card (Premium Redesign) --- */
-        .main-card {
-            background: #ffffff; border-radius: 28px; padding: 35px 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.03); border: 1px solid #ffffff;
-            text-align: center; margin-top: 10px;
+        .search-group input:focus { border-color: #000; background: #fff; box-shadow: 0 0 0 4px rgba(0,0,0,0.02); }
+        
+        .btn-search {
+            background: #000; color: #fff; border: none;
+            padding: 18px 35px; border-radius: 16px; font-weight: 700;
+            cursor: pointer; font-size: 16px; transition: 0.3s;
         }
-        .main-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
-        .main-card p { font-size: 13px; color: #64748b; margin-bottom: 30px; line-height: 1.6; }
-
-        .search-box {
-            display: flex; background: #f4f6f9; padding: 8px; border-radius: 18px;
-            border: 2px solid transparent; transition: 0.3s; align-items: center;
-        }
-        .search-box:focus-within { background: #fff; border-color: #6366f1; box-shadow: 0 10px 20px #6366f110; }
-        .search-box input {
-            flex: 1; border: none; background: transparent; padding: 12px 15px;
-            font-size: 15px; font-weight: 700; outline: none; text-transform: uppercase;
-        }
-        .search-btn {
-            background: #1a1c1e; color: white; border: none; padding: 12px 25px;
-            border-radius: 14px; font-weight: 700; cursor: pointer; transition: 0.3s;
-        }
-        .search-btn:active { transform: scale(0.95); }
+        .btn-search:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         /* Overlay */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; backdrop-filter: blur(4px); }
-        .overlay.active { display: block; }
+        .dimmer {
+            display: none; position: fixed; top: 0; left: 0; width: 100%;
+            height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; backdrop-filter: blur(2px);
+        }
+        .dimmer.show { display: block; }
 
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
+        /* Responsive Fix */
+        @media (max-width: 500px) {
+            .performance-card { padding: 35px 25px; }
+            .btn-search { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="dimmer" id="overlay" onclick="toggleNav()"></div>
 
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span class="brand-name">Grow Up</span>
-            <i class="fa-solid fa-xmark" style="cursor:pointer; font-size: 1.5rem;" onclick="toggleMenu()"></i>
-        </div>
-
-        <div class="user-profile-box">
-            <div class="avatar"><i class="fa-solid fa-shield-halved"></i></div>
-            <div>
+        <div class="user-profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <div class="user-info">
                 <p>Leader Account</p>
-                <h3 id="display-code">RU05</h3>
+                <h3 id="sideUserCode">RU05</h3>
             </div>
         </div>
 
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="#" class="nav-link active"><i class="fa-solid fa-grip-vertical"></i> Dashboard</a></li>
-            <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-file-invoice"></i> Data Claim</a></li>
-            <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-wallet"></i> Payment</a></li>
-            <li class="nav-item" style="margin-top: 50px;">
-                <a href="index.html" class="nav-link" style="color: #ff4d4d;" onclick="logout()">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-                </a>
-            </li>
-        </ul>
+        <nav>
+            <a href="#" class="nav-link active"><i class="fa-solid fa-layer-group"></i> Dashboard</a>
+            <a href="#" class="nav-link"><i class="fa-solid fa-file-export"></i> Data Claim</a>
+            <a href="#" class="nav-link"><i class="fa-solid fa-credit-card"></i> Payment</a>
+            <a href="index.html" class="nav-link" style="margin-top: 60px; color: #d63031;" onclick="doLogout()">
+                <i class="fa-solid fa-power-off"></i> Logout
+            </a>
+        </nav>
     </aside>
 
     <header>
-        <i class="fa-solid fa-bars-staggered menu-toggle" onclick="toggleMenu()"></i>
-        <h1 style="font-size: 18px; font-weight: 800;">Rise Up</h1>
-        <i class="fa-solid fa-circle-user" style="font-size: 1.6rem; color: #6366f1;"></i>
+        <button class="menu-btn" onclick="toggleNav()"><i class="fa-solid fa-bars-staggered"></i></button>
+        <h1>Rise Up</h1>
     </header>
 
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fa-solid fa-coins"></i>
-                <span>Total Earnings</span>
-                <h4>₹ 0.00</h4>
-            </div>
-            <div class="stat-card" style="border-left: 4px solid #6366f1;">
-                <i class="fa-solid fa-users"></i>
-                <span>My Team</span>
-                <h4>0 Members</h4>
-            </div>
-        </div>
-
-        <div class="main-card">
+    <main class="main-content">
+        <div class="performance-card">
             <h2>Team Performance</h2>
-            <p>Enter a leader code to view their real-time activity, stats and data claim reports.</p>
+            <p>Monitor your team's real-time activity and stats. Enter a valid leader code below to fetch comprehensive data claim reports and performance metrics.</p>
             
-            <div class="search-box">
-                <input type="text" id="targetCode" placeholder="Enter Leader Code">
-                <button class="search-btn" onclick="performSearch()">Search</button>
+            <div class="search-group">
+                <input type="text" id="leaderInput" placeholder="ENTER LEADER CODE">
+                <button class="btn-search" onclick="startSearch()">Search</button>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
+        // Set User Code
         window.onload = function() {
-            const savedCode = localStorage.getItem('userCode') || "RU05";
-            document.getElementById('display-code').innerText = savedCode;
+            const code = localStorage.getItem('userCode') || "RU05";
+            document.getElementById('sideUserCode').innerText = code;
         };
 
-        function toggleMenu() {
+        function toggleNav() {
             document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('show');
         }
 
-        function performSearch() {
-            const code = document.getElementById('targetCode').value;
-            if(!code) return;
-            alert("Fetching data for: " + code.toUpperCase());
+        function startSearch() {
+            const val = document.getElementById('leaderInput').value;
+            if(!val) return alert("Please enter a code");
+            alert("Fetching Rise Up official data for: " + val.toUpperCase());
         }
 
-        function logout() {
+        function doLogout() {
             localStorage.removeItem('userCode');
-            window.location.href = "index.html";
         }
     </script>
 </body>
