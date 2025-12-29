@@ -3,172 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rise Up | Claim</title>
+    <title>Rise Up | Professional Claim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #fcfcfc; color: #1a1a1a; }
+        body { background-color: #f8f9fa; color: #1a1a1a; overflow-x: hidden; }
 
         header {
             background: #fff; padding: 18px 25px; display: flex; align-items: center;
-            border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
         }
-        .back-btn { font-size: 22px; cursor: pointer; color: #333; text-decoration: none; }
-        header h1 { font-size: 20px; font-weight: 700; flex: 1; text-align: center; margin-right: 22px; }
+        .back-btn { font-size: 20px; cursor: pointer; color: #333; text-decoration: none; }
+        header h1 { font-size: 18px; font-weight: 700; flex: 1; text-align: center; margin-right: 20px; color: #000; }
 
-        .container { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; min-height: calc(100vh - 70px); }
+        .container { padding: 25px 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* --- Main Form Card --- */
-        .form-card {
-            background: #fff; border-radius: 24px; padding: 30px 20px; width: 100%; max-width: 450px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #f1f1f1; margin-bottom: 20px;
+        /* --- Main UI Card --- */
+        .card {
+            background: #fff; border-radius: 28px; padding: 35px 25px; width: 100%; max-width: 450px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid #f0f0f0;
         }
-        .form-card h2 { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 5px; }
-        .form-card p { font-size: 15px; color: #95a5a6; text-align: center; margin-bottom: 30px; font-weight: 600; }
+        .card h2 { font-size: 32px; font-weight: 800; text-align: center; margin-bottom: 5px; letter-spacing: -1px; }
+        .card p.sub { font-size: 15px; color: #95a5a6; text-align: center; margin-bottom: 35px; font-weight: 600; }
 
-        /* --- Styled Inputs --- */
-        .portal-trigger {
-            width: 100%; background: #f9f9f9; border: 1.5px solid #eee; padding: 16px 20px;
-            border-radius: 16px; font-size: 16px; font-weight: 600; margin-bottom: 15px;
+        /* --- Inputs --- */
+        .select-trigger {
+            width: 100%; background: #fdfdfd; border: 1.5px solid #eee; padding: 18px 22px;
+            border-radius: 18px; font-size: 16px; font-weight: 600; margin-bottom: 15px;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.2s;
         }
-        .input-field {
-            width: 100%; background: #f9f9f9; border: 1.5px solid #eee; padding: 16px 20px;
-            border-radius: 16px; font-size: 16px; font-weight: 600; margin-bottom: 15px; outline: none;
-        }
-        .input-field:focus { border-color: #000; background: #fff; }
-
-        .btn-black {
-            width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 18px;
-            border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s;
-        }
-        .btn-black:active { transform: scale(0.97); }
-
-        /* --- Result Section (Hidden Initially) --- */
-        #resultSection { display: none; width: 100%; max-width: 450px; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .portal-display { font-size: 35px; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; color: #000; }
-        .detail-row { margin-bottom: 25px; }
-        .detail-row label { font-size: 12px; color: #95a5a6; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .detail-row p { font-size: 22px; font-weight: 700; }
-
-        /* --- UI Overlays (Bottom Sheet & Popups) --- */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1000; backdrop-filter: blur(4px); }
+        .select-trigger:active { background: #f5f5f5; border-color: #ddd; }
         
+        .input-field {
+            width: 100%; background: #fdfdfd; border: 1.5px solid #eee; padding: 18px 22px;
+            border-radius: 18px; font-size: 16px; font-weight: 600; margin-bottom: 20px; outline: none;
+            transition: 0.3s;
+        }
+        .input-field:focus { border-color: #000; background: #fff; box-shadow: 0 0 0 4px rgba(0,0,0,0.02); }
+
+        .btn-main {
+            width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 18px;
+            border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .btn-main:active { transform: scale(0.96); opacity: 0.9; }
+
+        /* --- Result Section (Steps) --- */
+        #leaderSection { display: none; margin-top: 20px; animation: fadeInUp 0.5s cubic-bezier(0.2, 1, 0.3, 1); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .portal-label { font-size: 38px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; color: #000; }
+        .phone-label { font-size: 20px; font-weight: 700; color: #444; margin-bottom: 30px; }
+
+        /* --- iOS Style Bottom Sheet --- */
+        .sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; z-index: 1000; backdrop-filter: blur(3px); }
         .bottom-sheet {
             position: fixed; bottom: -100%; left: 0; width: 100%; background: #fff;
-            border-radius: 30px 30px 0 0; padding: 30px 20px; z-index: 1001;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 30px 30px 0 0; padding: 25px; z-index: 1001;
+            transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+            max-height: 70vh; overflow-y: auto;
         }
         .bottom-sheet.active { bottom: 0; }
-        .sheet-option { padding: 18px; border-radius: 15px; margin-bottom: 8px; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: space-between; }
-        .sheet-option:active { background: #f0f0f0; }
-
-        .success-popup {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            background: #fff; padding: 40px 30px; border-radius: 30px; width: 85%; max-width: 350px;
-            text-align: center; z-index: 2000; display: none; opacity: 0; transition: 0.3s;
+        .sheet-handle { width: 40px; height: 5px; background: #e0e0e0; border-radius: 10px; margin: 0 auto 25px; }
+        .sheet-title { font-size: 14px; font-weight: 800; color: #adb5bd; text-transform: uppercase; text-align: center; margin-bottom: 15px; letter-spacing: 1px; }
+        
+        .portal-item {
+            padding: 18px 20px; border-radius: 16px; margin-bottom: 8px; font-weight: 700;
+            font-size: 17px; color: #333; display: flex; align-items: center; justify-content: space-between;
+            background: #f8f9fa; border: 1px solid transparent; transition: 0.2s;
         }
-        .success-popup.show { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .success-popup i { font-size: 65px; color: #2ecc71; margin-bottom: 20px; display: block; }
+        .portal-item:active { background: #e9ecef; border-color: #dee2e6; }
+        .portal-item i { font-size: 18px; color: #ced4da; }
+
+        /* --- Pro Success Modal --- */
+        .success-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            background: #fff; padding: 40px 30px; border-radius: 32px; width: 85%; max-width: 340px;
+            text-align: center; z-index: 2000; display: none; opacity: 0; transition: 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.28);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        .success-modal.show { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .success-modal .icon-circle { 
+            width: 80px; height: 80px; background: #2ecc71; color: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 25px;
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.2);
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="home.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="home.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
         <h1>Data Claim</h1>
     </header>
 
     <main class="container">
-        <div class="form-card" id="searchBox">
+        <div class="card" id="searchBox">
             <h2>Rise Up</h2>
-            <p>Claim Your Client</p>
+            <p class="sub">Claim Your Client</p>
 
-            <div class="portal-trigger" onclick="openSheet()">
-                <span id="selectedPortal">Select Portal</span>
-                <i class="fa-solid fa-chevron-down"></i>
+            <div class="select-trigger" onclick="openSheet()">
+                <span id="portalVal">Select Portal</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 14px; color: #999;"></i>
             </div>
-            <input type="number" class="input-field" id="clientNum" placeholder="Enter Client Mobile Number">
-            <button class="btn-black" onclick="showResults()">Claim</button>
+            
+            <input type="number" class="input-field" id="clientPhone" placeholder="Client Mobile Number">
+            <button class="btn-main" onclick="processSearch()">Claim</button>
         </div>
 
-        <div id="resultSection">
-            <div class="form-card">
-                <h1 class="portal-display" id="resPortal">UPSTOX</h1>
-                <div class="detail-row">
-                    <label>Phone Number</label>
-                    <p id="resPhone">9241102626</p>
-                </div>
+        <div id="leaderSection" class="card">
+            <h1 class="portal-label" id="resPortal">UPSTOX</h1>
+            <p class="phone-label" id="resPhone">9241102626</p>
 
-                <hr style="border:0; border-top:1px solid #eee; margin-bottom:25px;">
-                
-                <p style="font-weight:800; margin-bottom:15px;"><i class="fa-solid fa-user-plus"></i> Claim This Client</p>
-                
-                <input type="text" class="input-field" id="lCode" placeholder="Enter Leader Code">
-                <input type="number" class="input-field" id="lPhone" placeholder="Your Phone Number">
-                
-                <button class="btn-black" onclick="triggerSuccess()">Add Me as Owner</button>
-            </div>
+            <div style="height: 1.5px; background: #f0f0f0; margin-bottom: 30px;"></div>
+            
+            <p style="text-align:left; font-weight:800; margin-bottom:20px; font-size: 18px;">
+                <i class="fa-solid fa-user-shield" style="margin-right:8px; color:#1a1a1a;"></i> Claim This Client
+            </p>
+            
+            <input type="text" class="input-field" id="leaderCode" placeholder="Enter Leader Code">
+            <input type="number" class="input-field" id="leaderPhone" placeholder="Your Phone Number">
+            
+            <button class="btn-main" onclick="showSuccess()">Add Me as Owner</button>
         </div>
     </main>
 
-    <div class="overlay" id="overlay" onclick="closeSheet()"></div>
-    
-    <div class="bottom-sheet" id="sheet">
-        <div style="text-align:center; font-weight:800; color:#95a5a6; margin-bottom:20px;">SELECT PORTAL</div>
-        <div class="sheet-option" onclick="selectPortal('Angel One')">Angel One <i class="fa-regular fa-circle"></i></div>
-        <div class="sheet-option" onclick="selectPortal('Mstock')">Mstock <i class="fa-regular fa-circle"></i></div>
-        <div class="sheet-option" onclick="selectPortal('Jainam')">Jainam <i class="fa-regular fa-circle"></i></div>
-        <div class="sheet-option" onclick="selectPortal('Upstox')">Upstox <i class="fa-regular fa-circle"></i></div>
-        <div class="sheet-option" onclick="selectPortal('Motilal Oswal')">Motilal Oswal <i class="fa-regular fa-circle"></i></div>
+    <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+    <div class="bottom-sheet" id="portalSheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Choose Portal</div>
+        
+        <div class="portal-item" onclick="setPortal('Angel One')">Angel One <i class="fa-solid fa-circle-check"></i></div>
+        <div class="portal-item" onclick="setPortal('Mstock')">Mstock <i class="fa-solid fa-circle-check"></i></div>
+        <div class="portal-item" onclick="setPortal('Jainam')">Jainam <i class="fa-solid fa-circle-check"></i></div>
+        <div class="portal-item" onclick="setPortal('Upstox')">Upstox <i class="fa-solid fa-circle-check"></i></div>
+        <div class="portal-item" onclick="setPortal('Motilal Oswal')">Motilal Oswal <i class="fa-solid fa-circle-check"></i></div>
     </div>
 
-    <div class="success-popup" id="successPop">
-        <i class="fa-solid fa-circle-check"></i>
-        <h3 style="font-size:24px; margin-bottom:10px;">Claim Successful!</h3>
-        <p style="color:#7f8c8d; font-weight:600; margin-bottom:30px;">Dashboard check karein.</p>
-        <button class="btn-black" onclick="window.location.href='home.html'">OK</button>
+    <div class="success-modal" id="successMod">
+        <div class="icon-circle"><i class="fa-solid fa-check"></i></div>
+        <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 10px;">Success!</h3>
+        <p style="color: #7f8c8d; font-weight: 600; margin-bottom: 30px; line-height: 1.5;">Claim successful. Please check your dashboard.</p>
+        <button class="btn-main" onclick="window.location.href='home.html'">OK</button>
     </div>
 
     <script>
         function openSheet() {
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('sheet').classList.add('active');
+            document.getElementById('sheetOverlay').style.display = 'block';
+            setTimeout(() => { document.getElementById('portalSheet').classList.add('active'); }, 10);
         }
+
         function closeSheet() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('sheet').classList.remove('active');
+            document.getElementById('portalSheet').classList.remove('active');
+            setTimeout(() => { document.getElementById('sheetOverlay').style.display = 'none'; }, 300);
         }
-        function selectPortal(name) {
-            document.getElementById('selectedPortal').innerText = name;
-            document.getElementById('selectedPortal').style.color = '#000';
+
+        function setPortal(name) {
+            document.getElementById('portalVal').innerText = name;
+            document.getElementById('portalVal').style.color = '#000';
             closeSheet();
         }
 
-        function showResults() {
-            const portal = document.getElementById('selectedPortal').innerText;
-            const num = document.getElementById('clientNum').value;
-            if(portal === "Select Portal" || !num) return alert("Pehle details bharo!");
+        function processSearch() {
+            const portal = document.getElementById('portalVal').innerText;
+            const phone = document.getElementById('clientPhone').value;
+
+            if(portal === "Select Portal" || !phone) {
+                alert("Please fill all details!");
+                return;
+            }
 
             document.getElementById('resPortal').innerText = portal;
-            document.getElementById('resPhone').innerText = num;
-            
-            // LocalStorage se code uthao
-            document.getElementById('lCode').value = localStorage.getItem('userCode') || "";
-            
+            document.getElementById('resPhone').innerText = phone;
             document.getElementById('searchBox').style.display = 'none';
-            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('leaderSection').style.display = 'block';
+            
+            // Auto-fill leader code
+            document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "";
         }
 
-        function triggerSuccess() {
-            const code = document.getElementById('lCode').value;
-            const phone = document.getElementById('lPhone').value;
-            if(!code || !phone) return alert("Leader Details bharna zaroori hai!");
+        function showSuccess() {
+            const code = document.getElementById('leaderCode').value;
+            const lphone = document.getElementById('leaderPhone').value;
 
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('successPop').classList.add('show');
+            if(!code || !lphone) {
+                alert("Please enter leader details!");
+                return;
+            }
+
+            document.getElementById('sheetOverlay').style.display = 'block';
+            document.getElementById('successMod').classList.add('show');
         }
     </script>
 </body>
