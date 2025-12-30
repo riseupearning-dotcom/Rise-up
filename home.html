@@ -69,7 +69,7 @@
         <nav>
             <a href="home.html" class="nav-link active"><i class="fa-solid fa-layer-group"></i> Dashboard</a>
             <a href="data-claim.html" class="nav-link"><i class="fa-solid fa-file-export"></i> Data Claim</a>
-            <a href="#" class="nav-link"><i class="fa-solid fa-credit-card"></i> Payment</a>
+            <a href="payment.html" class="nav-link"><i class="fa-solid fa-credit-card"></i> Payment</a>
             <a href="index.html" class="nav-link" style="margin-top: 60px; color: #d63031;"><i class="fa-solid fa-power-off"></i> Logout</a>
         </nav>
     </aside>
@@ -144,12 +144,10 @@
                             <tbody>`;
                 
                 pData.forEach((row, idx) => {
-                    // --- Strictly control status display ---
                     let dbStatus = (row.status || "WAIT").toUpperCase();
-                    let displayStatus = "WAIT"; // Default status
+                    let displayStatus = "WAIT"; 
                     let badgeStyle = "wait-badge";
 
-                    // Sirf ye do condition par hi status badlega
                     if(dbStatus === "APPROVE") {
                         displayStatus = "APPROVE";
                         badgeStyle = "approve-badge";
@@ -157,7 +155,6 @@
                         displayStatus = "DISAPPROVED";
                         badgeStyle = "disapprove-badge";
                     } else {
-                        // Agar status 'DONE' ya kuch aur hai, toh force WAIT dikhao
                         displayStatus = "WAIT";
                         badgeStyle = "wait-badge";
                     }
