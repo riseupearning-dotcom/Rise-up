@@ -10,7 +10,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <style>
-        /* --- Tera Original Style (No Changes) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #fcfcfc; color: #1a1a1a; overflow-x: hidden; }
         header { background: #fff; padding: 18px 25px; display: flex; align-items: center; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100; }
@@ -93,7 +92,6 @@
     </main>
 
     <script>
-        // --- FIREBASE SETUP ---
         const firebaseConfig = {
             databaseURL: "https://data-claim-69ed0-default-rtdb.firebaseio.com/"
         };
@@ -105,12 +103,10 @@
             document.getElementById('overlay').classList.toggle('show');
         }
 
-        // --- NEW LIVE SEARCH LOGIC ---
         function startSearch() {
             const inputCode = document.getElementById('leaderInput').value.trim().toUpperCase();
             if(!inputCode) return alert("Pehle Leader Code dalo!");
             
-            // Firebase se real-time data listen karein
             database.ref('claims').on('value', (snapshot) => {
                 const data = snapshot.val();
                 const resultsDiv = document.getElementById('dashboardResults');
@@ -126,9 +122,13 @@
                     return;
                 }
 
-                // Filter data based on Leader Code
+                // Sahi Filter aur Mapping Logic
                 const myClaims = Object.keys(data)
-                    .map(key => data[key])
+                    .map(key => {
+                        let item = data[key];
+                        item.id = key; // Firebase Key ko track karne ke liye
+                        return item;
+                    })
                     .filter(item => item.owner && item.owner.toUpperCase() === inputCode);
 
                 if(myClaims.length === 0) {
@@ -139,7 +139,6 @@
 
                 countDisplay.innerText = myClaims.length.toString().padStart(2, '0');
 
-                // Portals ke hisaab se group banayein
                 const portals = [...new Set(myClaims.map(c => c.portal))];
 
                 portals.forEach(pName => {
@@ -154,6 +153,7 @@
                                 <tbody>`;
                     
                     pData.forEach((row, idx) => {
+                        // "APPROVED" spelling check sync
                         let dbStatus = (row.status || "WAIT").toUpperCase();
                         let badgeStyle = "wait-badge";
 
