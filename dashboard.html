@@ -3,44 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rise Up | Dashboard</title>
+    <title>Rise Up | Leader Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #fcfcfc; color: #1a1a1a; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* --- Header / Back Button --- */
         .header { width: 100%; max-width: 650px; display: flex; align-items: center; margin-bottom: 30px; }
-        .back-btn { font-size: 20px; color: #333; text-decoration: none; margin-right: 15px; }
-        .header h1 { font-size: 22px; font-weight: 800; }
+        .back-btn { font-size: 22px; color: #333; text-decoration: none; margin-right: 15px; }
+        .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
 
-        /* --- Search Section --- */
+        /* Search Section */
         .search-card {
             background: #fff; border-radius: 25px; padding: 30px; width: 100%; max-width: 650px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #f1f1f1; margin-bottom: 25px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #f1f1f1; margin-bottom: 25px;
         }
-        .search-group { display: flex; gap: 10px; margin-top: 15px; }
-        .search-group input { flex: 1; padding: 15px; border: 1.5px solid #eee; border-radius: 12px; font-size: 16px; font-weight: 700; text-transform: uppercase; outline: none; }
-        .btn-search { background: #000; color: #fff; border: none; padding: 15px 25px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .search-group { display: flex; gap: 12px; margin-top: 15px; }
+        .search-group input { flex: 1; padding: 16px; border: 1.5px solid #eee; border-radius: 14px; font-size: 16px; font-weight: 700; text-transform: uppercase; outline: none; }
+        .btn-search { background: #000; color: #fff; border: none; padding: 16px 25px; border-radius: 14px; font-weight: 700; cursor: pointer; }
 
-        /* --- Dashboard Results (Initially Hidden) --- */
+        /* Results Area (Shuru me hide rahega) */
         #resultsArea { display: none; width: 100%; max-width: 650px; animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Total Banner */
-        .stat-banner { background: #000; color: #fff; padding: 25px; border-radius: 25px; margin-bottom: 20px; }
-        .stat-banner p { font-size: 11px; opacity: 0.7; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
-        .stat-banner h2 { font-size: 45px; font-weight: 800; margin-top: 5px; }
+        .stat-banner { background: #000; color: #fff; padding: 30px; border-radius: 25px; margin-bottom: 20px; }
+        .stat-banner p { font-size: 12px; opacity: 0.7; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .stat-banner h2 { font-size: 50px; font-weight: 800; margin-top: 5px; }
 
         /* Portal Cards */
-        .portal-card { background: #fff; border-radius: 25px; padding: 20px; margin-bottom: 15px; border: 1px solid #f1f1f1; }
-        .portal-header { font-size: 18px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .portal-card { background: #fff; border-radius: 25px; padding: 22px; margin-bottom: 15px; border: 1px solid #f1f1f1; }
+        .portal-header { font-size: 20px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; font-size: 10px; color: #adb5bd; text-transform: uppercase; padding-bottom: 8px; }
-        td { padding: 12px 0; font-size: 14px; font-weight: 800; border-top: 1px solid #fcfcfc; }
+        th { text-align: left; font-size: 11px; color: #adb5bd; text-transform: uppercase; padding-bottom: 10px; }
+        td { padding: 15px 0; font-size: 15px; font-weight: 800; border-top: 1px solid #f9f9f9; }
         
-        .badge { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+        .badge { padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; }
         .done { background: #e6fcf5; color: #0ca678; }
         .not-done { background: #fff5f5; color: #fa5252; }
     </style>
@@ -49,11 +48,11 @@
 
     <div class="header">
         <a href="home.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
-        <h1>Leader Dashboard</h1>
+        <h1>Rise Up</h1>
     </div>
 
     <div class="search-card">
-        <p style="color: #636e72; font-size: 14px; font-weight: 600;">Leader code daalein apna data dekhne ke liye.</p>
+        <p style="color: #636e72; font-size: 15px; font-weight: 600;">Leader code daalein apna data dekhne ke liye.</p>
         <div class="search-group">
             <input type="text" id="leaderSearch" placeholder="E.G. RU05">
             <button class="btn-search" onclick="fetchResults()">Search</button>
@@ -63,7 +62,7 @@
     <div id="resultsArea">
         <div class="stat-banner">
             <p>Total Data Claims</p>
-            <h2 id="totalCount">00</h2>
+            <h2 id="totalCountDisplay">00</h2>
         </div>
 
         <div id="dynamicContent"></div>
@@ -71,40 +70,49 @@
 
     <script>
         function fetchResults() {
-            const code = document.getElementById('leaderSearch').value.toUpperCase();
+            const code = document.getElementById('leaderSearch').value.trim().toUpperCase();
             if(!code) return alert("Pehle code daalein!");
 
-            // Dashboard Area dikhana
-            document.getElementById('resultsArea').style.display = 'block';
+            // 1. LocalStorage se asli data uthana
+            const allClaims = JSON.parse(localStorage.getItem('riseup_claims')) || [];
+            
+            // 2. Sirf us Leader ka data filter karna
+            const myClaims = allClaims.filter(item => item.owner.toUpperCase() === code);
 
-            // LocalStorage se data uthana (Jo data-claim.html se save hua hai)
-            const allData = JSON.parse(localStorage.getItem('riseup_claims')) || [];
-            const filtered = allData.filter(item => item.owner.toUpperCase() === code);
-
-            // Total Count Update
-            document.getElementById('totalCount').innerText = filtered.length.toString().padStart(2, '0');
-
-            // Render Tables (Grouping by Portal)
+            const resultsArea = document.getElementById('resultsArea');
             const container = document.getElementById('dynamicContent');
-            container.innerHTML = "";
 
-            if(filtered.length === 0) {
-                container.innerHTML = "<p style='text-align:center; padding:20px; color:#999;'>Is code par koi data nahi mila.</p>";
+            if(myClaims.length === 0) {
+                alert("Is code par koi bhi claim data nahi mila!");
+                resultsArea.style.display = 'none';
                 return;
             }
 
-            // Portals ke hisaab se data group karna
-            const portals = [...new Set(filtered.map(i => i.portal))];
-            portals.forEach(pName => {
-                const pData = filtered.filter(i => i.portal === pName);
+            // 3. Results Area dikhana aur Count update karna
+            resultsArea.style.display = 'block';
+            document.getElementById('totalCountDisplay').innerText = myClaims.length.toString().padStart(2, '0');
+
+            // 4. Portal wise Grouping aur Table banana
+            container.innerHTML = ""; // Purana data saaf karna
+            const portals = [...new Set(myClaims.map(c => c.portal))];
+
+            portals.forEach(portalName => {
+                const portalData = myClaims.filter(c => c.portal === portalName);
                 let tableHtml = `
                     <div class="portal-card">
-                        <div class="portal-header">${pName} <span style="font-size:12px; color:#95a5a6;">(${pData.length} Claim)</span></div>
+                        <div class="portal-header">${portalName} <span style="font-size:14px; color:#95a5a6;">(${portalData.length} Claim)</span></div>
                         <table>
-                            <thead><tr><th>S.N</th><th>Number</th><th>Owner</th><th>Status</th></tr></thead>
+                            <thead>
+                                <tr>
+                                    <th style="width:10%">S.N</th>
+                                    <th style="width:40%">Client Number</th>
+                                    <th style="width:25%">Owner</th>
+                                    <th style="width:25%">Status</th>
+                                </tr>
+                            </thead>
                             <tbody>`;
                 
-                pData.forEach((row, idx) => {
+                portalData.forEach((row, idx) => {
                     tableHtml += `
                         <tr>
                             <td>${idx + 1}</td>
@@ -116,6 +124,9 @@
                 tableHtml += `</tbody></table></div>`;
                 container.innerHTML += tableHtml;
             });
+
+            // Smooth scroll to results
+            window.scrollTo({ top: resultsArea.offsetTop - 20, behavior: 'smooth' });
         }
     </script>
 </body>
