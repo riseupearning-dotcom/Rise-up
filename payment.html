@@ -40,12 +40,19 @@
             <div id="statusMsg"></div>
         </div>
     </main>
+
     <script>
-        // API URL updated based on your SheetDB link
         const API_URL = "https://sheetdb.io/api/v1/ordxis5n7cda9";
 
         window.onload = function() {
+            // Leader code set karna
             document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "RU05";
+            
+            // ZAROORI: Check karna agar pehle se UPI save hai toh box mein dikhana
+            const savedUPI = localStorage.getItem('userUPI');
+            if(savedUPI) {
+                document.getElementById('upiInput').value = savedUPI;
+            }
         };
 
         async function savePayment() {
@@ -60,13 +67,14 @@
             btn.innerText = "Saving...";
             msg.style.display = "block";
             msg.style.color = "#f08c00";
-            msg.innerText = "Connecting to cloud...";
+            msg.innerText = "Saving to phone...";
 
+            // 1. Phone ki memory mein hamesha ke liye save karna
+            localStorage.setItem('userUPI', upi);
+
+            // 2. Cloud (SheetDB) par bhejkar update karna
             try {
-                // Pehle check karte hain agar is leader ki UPI pehle se hai toh use update karenge
                 await fetch(API_URL + "/owner/" + owner, { method: 'DELETE' });
-
-                // Nayi UPI entry add karna
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -81,7 +89,7 @@
                 }
             } catch (e) {
                 msg.style.color = "#e74c3c";
-                msg.innerText = "Error saving data. Try again.";
+                msg.innerText = "Error syncing with cloud, but saved on phone.";
             }
             btn.disabled = false;
             btn.innerText = "Save Payment Info";
