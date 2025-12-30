@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rise Up | Professional Claim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <style>
         /* --- Tera Original Style (No Changes) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -83,6 +87,13 @@
     </div>
 
     <script>
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            databaseURL: "https://data-claim-69ed0-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         function openSheet() {
             document.getElementById('sheetOverlay').style.display = 'block';
             setTimeout(() => { document.getElementById('portalSheet').classList.add('active'); }, 10);
@@ -112,12 +123,10 @@
             document.getElementById('resPhone').innerText = phone;
             document.getElementById('searchBox').style.display = 'none';
             document.getElementById('leaderSection').style.display = 'block';
-            
-            // Auto-fill stored leader code if available
             document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "";
         }
 
-        // --- FIXED DATABASE SAVING LOGIC ---
+        // --- NEW FIREBASE + TELEGRAM LOGIC ---
         function saveClaimToDatabase() {
             const leaderCode = document.getElementById('leaderCode').value.trim().toUpperCase();
             const leaderPhone = document.getElementById('leaderPhone').value.trim();
@@ -129,25 +138,50 @@
                 return;
             }
 
-            // 1. Fetch existing claims from LocalStorage
-            let allClaims = JSON.parse(localStorage.getItem('riseup_claims')) || [];
+            const orderId = "id_" + Date.now(); // Unique ID for Firebase
 
-            // 2. Create the data object
-            const newEntry = {
-                owner: leaderCode,      // Isse dashboard "Owner" column fill hoga
-                number: clientNumber,   // Pura number bina XXXX ke
-                portal: portalName,     // Upstox/Angel etc.
-                status: "DONE",         // Default status
+            // 1. Save to Firebase
+            database.ref('claims/' + orderId).set({
+                owner: leaderCode,
+                number: clientNumber,
+                portal: portalName,
+                status: "WAIT", // Initial status is WAIT
                 leaderPhone: leaderPhone
+            }).then(() => {
+                // 2. Send Notification to Telegram
+                sendToBot(leaderCode, clientNumber, portalName, orderId);
+
+                // 3. Show Success Modal
+                document.getElementById('sheetOverlay').style.display = 'block';
+                document.getElementById('successMod').classList.add('show');
+            }).catch(err => {
+                alert("Database Error: " + err.message);
+            });
+        }
+
+        function sendToBot(leader, client, portal, orderId) {
+            const botToken = "8539942002:AAHSMqLzmFLo4ucq6FNE0TaiWVyzpskYA6w"; //
+            const chatId = "8415600127"; //
+            
+            const text = `📥 *Naya Claim Aaya Hai!*\n\n👤 *Leader:* ${leader}\n🔢 *Client:* ${client}\n🏦 *Portal:* ${portal}\n⏳ *Status:* WAIT`;
+            
+            const keyboard = {
+                inline_keyboard: [[
+                    { text: "✅ Approve", callback_data: `approve_${orderId}` },
+                    { text: "❌ Disapprove", callback_data: `disapprove_${orderId}` }
+                ]]
             };
 
-            // 3. Save it back to LocalStorage
-            allClaims.push(newEntry);
-            localStorage.setItem('riseup_claims', JSON.stringify(allClaims));
-
-            // 4. Show the Success Modal
-            document.getElementById('sheetOverlay').style.display = 'block';
-            document.getElementById('successMod').classList.add('show');
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text,
+                    parse_mode: 'Markdown',
+                    reply_markup: keyboard
+                })
+            });
         }
     </script>
 </body>
