@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rise Up | Home & Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <style>
-        /* --- Base Setup --- */
+        /* --- Tera Original Style (No Changes) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #fcfcfc; color: #1a1a1a; overflow-x: hidden; }
         header { background: #fff; padding: 18px 25px; display: flex; align-items: center; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100; }
         .menu-btn { font-size: 22px; cursor: pointer; border: none; background: none; color: #333; display: flex; align-items: center; }
         header h1 { font-size: 24px; font-weight: 700; flex: 1; text-align: center; margin-right: 22px; letter-spacing: -0.5px; }
-        
-        /* --- Sidebar --- */
         .sidebar { position: fixed; top: 0; left: -100%; width: 310px; height: 100%; background: #fff; z-index: 1001; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px; box-shadow: 15px 0 40px rgba(0,0,0,0.06); }
         .sidebar.active { left: 0; }
         .sidebar-header { display: flex; justify-content: flex-end; margin-bottom: 10px; }
@@ -24,8 +26,6 @@
         .user-info h3 { font-size: 20px; font-weight: 800; color: #1a1a1a; }
         .nav-link { display: flex; align-items: center; gap: 18px; padding: 18px 20px; text-decoration: none; color: #4b4b4b; font-weight: 600; font-size: 19px; border-radius: 14px; margin-bottom: 10px; transition: 0.2s; }
         .nav-link.active { background: #f8faff; color: #000; border-left: 5px solid #000; }
-        
-        /* --- Main UI --- */
         .main-content { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
         .performance-card { background: #fff; border-radius: 30px; padding: 40px 30px; width: 100%; max-width: 650px; box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #f1f1f1; margin-bottom: 25px; }
         .performance-card h2 { font-size: 26px; font-weight: 800; margin-bottom: 15px; }
@@ -33,25 +33,19 @@
         .search-group { display: flex; gap: 12px; flex-wrap: wrap; }
         .search-group input { flex: 1; min-width: 200px; padding: 16px 20px; border: 1.5px solid #e0e0e0; border-radius: 14px; outline: none; font-size: 16px; font-weight: 700; text-transform: uppercase; }
         .btn-search { background: #000; color: #fff; border: none; padding: 16px 30px; border-radius: 14px; font-weight: 700; cursor: pointer; }
-
         #dashboardResults { display: none; width: 100%; max-width: 650px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .stat-banner { background: #000; color: #fff; padding: 30px; border-radius: 25px; margin-bottom: 20px; }
         .stat-banner h2 { font-size: 48px; font-weight: 800; margin-top: 5px; }
-        
         .portal-card { background: #fff; border-radius: 25px; padding: 22px; margin-bottom: 15px; border: 1px solid #f1f1f1; }
         .portal-header { font-size: 20px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; font-size: 11px; color: #adb5bd; text-transform: uppercase; padding-bottom: 10px; font-weight: 700; }
         td { padding: 15px 0; font-size: 15px; font-weight: 800; border-top: 1px solid #f9f9f9; }
-        
-        /* --- Strict Badge Control --- */
         .badge { padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; }
-        .wait-badge { background: #fff9db; color: #f08c00; } /* Yellow for WAIT only */
-        .approve-badge { background: #e6fcf5; color: #0ca678; } /* Green for APPROVE */
-        .disapprove-badge { background: #fff5f5; color: #fa5252; } /* Red for DISAPPROVED */
-        
+        .wait-badge { background: #fff9db; color: #f08c00; }
+        .approve-badge { background: #e6fcf5; color: #0ca678; }
+        .disapprove-badge { background: #fff5f5; color: #fa5252; }
         .dimmer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; backdrop-filter: blur(2px); }
         .dimmer.show { display: block; }
     </style>
@@ -99,79 +93,88 @@
     </main>
 
     <script>
+        // --- FIREBASE SETUP ---
+        const firebaseConfig = {
+            databaseURL: "https://data-claim-69ed0-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         function toggleNav() {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('show');
         }
 
+        // --- NEW LIVE SEARCH LOGIC ---
         function startSearch() {
             const inputCode = document.getElementById('leaderInput').value.trim().toUpperCase();
             if(!inputCode) return alert("Pehle Leader Code dalo!");
             
-            const allClaims = JSON.parse(localStorage.getItem('riseup_claims')) || [];
-            const myClaims = allClaims.filter(item => item.owner.toUpperCase() === inputCode);
+            // Firebase se real-time data listen karein
+            database.ref('claims').on('value', (snapshot) => {
+                const data = snapshot.val();
+                const resultsDiv = document.getElementById('dashboardResults');
+                const container = document.getElementById('dynamicContainer');
+                const countDisplay = document.getElementById('totalCountDisplay');
 
-            const resultsDiv = document.getElementById('dashboardResults');
-            const container = document.getElementById('dynamicContainer');
-            const countDisplay = document.getElementById('totalCountDisplay');
+                resultsDiv.style.display = 'block';
+                container.innerHTML = "";
 
-            resultsDiv.style.display = 'block';
+                if(!data) {
+                    countDisplay.innerText = "00";
+                    container.innerHTML = `<div style="text-align:center; padding:40px; background:#fff; border-radius:25px;"><p style="color:#999;">No data found in Database!</p></div>`;
+                    return;
+                }
 
-            if(myClaims.length === 0) {
-                countDisplay.innerText = "00";
-                container.innerHTML = `
-                    <div style="text-align:center; padding:40px; background:#fff; border-radius:25px;">
-                        <i class="fa-solid fa-face-frown" style="font-size:40px; color:#ddd; margin-bottom:15px;"></i>
-                        <p style="color:#999; font-weight:700;">Is code par koi data nahi mila!</p>
-                    </div>`;
-                return;
-            }
+                // Filter data based on Leader Code
+                const myClaims = Object.keys(data)
+                    .map(key => data[key])
+                    .filter(item => item.owner && item.owner.toUpperCase() === inputCode);
 
-            countDisplay.innerText = myClaims.length.toString().padStart(2, '0');
+                if(myClaims.length === 0) {
+                    countDisplay.innerText = "00";
+                    container.innerHTML = `<div style="text-align:center; padding:40px; background:#fff; border-radius:25px;"><p style="color:#999;">Is code par koi data nahi mila!</p></div>`;
+                    return;
+                }
 
-            container.innerHTML = "";
-            const portals = [...new Set(myClaims.map(c => c.portal))];
+                countDisplay.innerText = myClaims.length.toString().padStart(2, '0');
 
-            portals.forEach(pName => {
-                const pData = myClaims.filter(d => d.portal === pName);
-                let tableHtml = `
-                    <div class="portal-card">
-                        <div class="portal-header">${pName} <span style="font-size:14px; color:#95a5a6;">(${pData.length} Claim)</span></div>
-                        <table>
-                            <thead>
-                                <tr><th>S.N</th><th>Client Number</th><th>Owner</th><th>Status</th></tr>
-                            </thead>
-                            <tbody>`;
-                
-                pData.forEach((row, idx) => {
-                    let dbStatus = (row.status || "WAIT").toUpperCase();
-                    let displayStatus = "WAIT"; 
-                    let badgeStyle = "wait-badge";
+                // Portals ke hisaab se group banayein
+                const portals = [...new Set(myClaims.map(c => c.portal))];
 
-                    if(dbStatus === "APPROVE") {
-                        displayStatus = "APPROVE";
-                        badgeStyle = "approve-badge";
-                    } else if(dbStatus === "DISAPPROVED") {
-                        displayStatus = "DISAPPROVED";
-                        badgeStyle = "disapprove-badge";
-                    } else {
-                        displayStatus = "WAIT";
-                        badgeStyle = "wait-badge";
-                    }
+                portals.forEach(pName => {
+                    const pData = myClaims.filter(d => d.portal === pName);
+                    let tableHtml = `
+                        <div class="portal-card">
+                            <div class="portal-header">${pName} <span style="font-size:14px; color:#95a5a6;">(${pData.length} Claim)</span></div>
+                            <table>
+                                <thead>
+                                    <tr><th>S.N</th><th>Client Number</th><th>Owner</th><th>Status</th></tr>
+                                </thead>
+                                <tbody>`;
+                    
+                    pData.forEach((row, idx) => {
+                        let dbStatus = (row.status || "WAIT").toUpperCase();
+                        let badgeStyle = "wait-badge";
 
-                    tableHtml += `
-                        <tr>
-                            <td>${idx + 1}</td>
-                            <td style="letter-spacing:1px;">${row.number}</td> 
-                            <td style="color:#555;">${row.owner}</td>
-                            <td><span class="badge ${badgeStyle}">${displayStatus}</span></td>
-                        </tr>`;
+                        if(dbStatus === "APPROVED") badgeStyle = "approve-badge";
+                        else if(dbStatus === "DISAPPROVED") badgeStyle = "disapprove-badge";
+
+                        tableHtml += `
+                            <tr>
+                                <td>${idx + 1}</td>
+                                <td style="letter-spacing:1px;">${row.number}</td> 
+                                <td style="color:#555;">${row.owner}</td>
+                                <td><span class="badge ${badgeStyle}">${dbStatus}</span></td>
+                            </tr>`;
+                    });
+
+                    tableHtml += `</tbody></table></div>`;
+                    container.innerHTML += tableHtml;
                 });
-
-                tableHtml += `</tbody></table></div>`;
-                container.innerHTML += tableHtml;
             });
 
+            const resultsDiv = document.getElementById('dashboardResults');
             window.scrollTo({ top: resultsDiv.offsetTop - 20, behavior: 'smooth' });
         }
 
