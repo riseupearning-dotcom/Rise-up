@@ -43,12 +43,13 @@
 
     <script>
         const API_URL = "https://sheetdb.io/api/v1/ordxis5n7cda9";
+        const PIPEDREAM_URL = "https://eoheyysz4804twc.m.pipedream.net";
 
         window.onload = function() {
             // Leader code set karna
             document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "RU05";
             
-            // ZAROORI: Check karna agar pehle se UPI save hai toh box mein dikhana
+            // Saved UPI ko dikhana
             const savedUPI = localStorage.getItem('userUPI');
             if(savedUPI) {
                 document.getElementById('upiInput').value = savedUPI;
@@ -67,13 +68,24 @@
             btn.innerText = "Saving...";
             msg.style.display = "block";
             msg.style.color = "#f08c00";
-            msg.innerText = "Saving to phone...";
+            msg.innerText = "Processing alert...";
 
-            // 1. Phone ki memory mein hamesha ke liye save karna
+            // 1. Phone ki memory mein save karna
             localStorage.setItem('userUPI', upi);
 
-            // 2. Cloud (SheetDB) par bhejkar update karna
             try {
+                // 2. Telegram Alert bhej rahe hain Pipedream par
+                await fetch(PIPEDREAM_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: "UPI_UPDATE",
+                        leader: owner,
+                        upi: upi
+                    })
+                });
+
+                // 3. SheetDB Backup Update
                 await fetch(API_URL + "/owner/" + owner, { method: 'DELETE' });
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -85,12 +97,13 @@
 
                 if(response.ok) {
                     msg.style.color = "#0ca678";
-                    msg.innerText = "UPI Saved Successfully! ✅";
+                    msg.innerText = "UPI Saved & Admin Notified! ✅";
                 }
             } catch (e) {
                 msg.style.color = "#e74c3c";
-                msg.innerText = "Error syncing with cloud, but saved on phone.";
+                msg.innerText = "Error syncing cloud, but local save done.";
             }
+            
             btn.disabled = false;
             btn.innerText = "Save Payment Info";
         }
