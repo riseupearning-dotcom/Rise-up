@@ -7,83 +7,129 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f0f2f5; padding: 20px; }
+        body { background-color: #f0f2f5; padding: 15px; }
         
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .admin-header h1 { font-size: 22px; color: #1a1a1a; }
+        /* Tab Navigation */
+        .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: #fff; padding: 10px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; background: #f8f9fa; color: #adb5bd; transition: 0.3s; }
+        .tab-btn.active { background: #000; color: #fff; }
+
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-header h1 { font-size: 20px; color: #1a1a1a; }
         
-        .control-card { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid #f39c12; transition: 0.3s; }
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* Card Styles */
+        .control-card { background: #fff; border-radius: 15px; padding: 18px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid #f39c12; }
         .control-card.approved { border-left-color: #2ecc71; }
         .control-card.rejected { border-left-color: #e74c3c; }
+        .control-card.upi-card { border-left-color: #000; display: flex; justify-content: space-between; align-items: center; }
 
-        .card-info h3 { font-size: 18px; margin-bottom: 5px; color: #333; }
-        .card-info p { font-size: 14px; color: #7f8c8d; margin-bottom: 15px; }
+        .card-info h3 { font-size: 17px; margin-bottom: 5px; color: #333; }
+        .card-info p { font-size: 13px; color: #7f8c8d; margin-bottom: 10px; }
         
-        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .status-wait { background: #fff9db; color: #f08c00; }
         .status-approve { background: #e6fcf5; color: #0ca678; }
         .status-disapprove { background: #fff5f5; color: #fa5252; }
 
-        .actions { display: flex; gap: 10px; }
-        .btn { border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.2s; }
+        .actions { display: flex; gap: 8px; }
+        .btn { border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1; font-size: 13px; }
         .btn-ok { background: #2ecc71; color: #fff; }
-        .btn-ok:hover { background: #27ae60; }
         .btn-no { background: #e74c3c; color: #fff; }
-        .btn-no:hover { background: #c0392b; }
-        .btn-del { background: #95a5a6; color: #fff; max-width: 50px; }
+        .btn-del { background: #f1f1f1; color: #e74c3c; max-width: 45px; }
 
-        .empty-state { text-align: center; padding: 50px; color: #95a5a6; }
+        .empty-state { text-align: center; padding: 50px; color: #95a5a6; background: #fff; border-radius: 15px; }
+        .upi-id { background: #f8f9fa; padding: 5px 10px; border-radius: 5px; font-family: monospace; color: #000; font-weight: 700; }
     </style>
 </head>
 <body>
 
     <div class="admin-header">
         <h1><i class="fa-solid fa-shield-halved"></i> Rise Up Admin</h1>
-        <div id="stats">Total: 0</div>
+        <div id="stats" style="font-size: 12px; font-weight: 800; color: #95a5a6;">SYSTEM LIVE</div>
     </div>
 
-    <div id="adminList">
-        </div>
+    <div class="admin-tabs">
+        <button class="tab-btn active" onclick="switchTab('claims', this)">DATA CLAIMS</button>
+        <button class="tab-btn" onclick="switchTab('upi', this)">UPI DETAILS</button>
+    </div>
+
+    <div id="claimsSection" class="section active">
+        <div id="adminList"></div>
+    </div>
+
+    <div id="upiSection" class="section">
+        <div id="upiList"></div>
+    </div>
 
     <script>
+        // Tab Switching Logic
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabName + 'Section').classList.add('active');
+            btn.classList.add('active');
+
+            if(tabName === 'claims') loadAdminData();
+            if(tabName === 'upi') loadUPIData();
+        }
+
+        // Data Claims Logic
         function loadAdminData() {
             const allClaims = JSON.parse(localStorage.getItem('riseup_claims')) || [];
             const container = document.getElementById('adminList');
-            document.getElementById('stats').innerText = `Total Claims: ${allClaims.length}`;
             
             if (allClaims.length === 0) {
-                container.innerHTML = `<div class="empty-state">Abhi tak koi data claim nahi hua hai.</div>`;
+                container.innerHTML = `<div class="empty-state">No data claims found.</div>`;
                 return;
             }
 
             container.innerHTML = "";
-            // Ulta dikhayenge taaki naya claim sabse upar aaye
             allClaims.slice().reverse().forEach((item, index) => {
                 const originalIndex = allClaims.length - 1 - index;
-                
-                let cardClass = "";
-                let statusBadge = `<span class="status-badge status-wait">WAITING</span>`;
-                
-                if(item.status === "APPROVE") {
-                    cardClass = "approved";
-                    statusBadge = `<span class="status-badge status-approve">APPROVED</span>`;
-                } else if(item.status === "DISAPPROVED") {
-                    cardClass = "rejected";
-                    statusBadge = `<span class="status-badge status-disapprove">REJECTED</span>`;
-                }
+                let cardClass = item.status === "APPROVE" ? "approved" : (item.status === "DISAPPROVED" ? "rejected" : "");
+                let badgeLabel = item.status || "WAITING";
 
                 container.innerHTML += `
                     <div class="control-card ${cardClass}">
                         <div class="card-info">
                             <h3>${item.number}</h3>
                             <p><strong>Leader:</strong> ${item.owner} | <strong>Portal:</strong> ${item.portal}</p>
-                            ${statusBadge}
+                            <span class="status-badge ${badgeLabel === 'APPROVE' ? 'status-approve' : (badgeLabel === 'DISAPPROVED' ? 'status-disapprove' : 'status-wait')}">${badgeLabel}</span>
                         </div>
                         <div class="actions">
                             <button class="btn btn-ok" onclick="updateStatus(${originalIndex}, 'APPROVE')">Approve</button>
-                            <button class="btn btn-no" onclick="updateStatus(${originalIndex}, 'DISAPPROVED')">Disapprove</button>
+                            <button class="btn btn-no" onclick="updateStatus(${originalIndex}, 'DISAPPROVED')">Reject</button>
                             <button class="btn btn-del" onclick="deleteClaim(${originalIndex})"><i class="fa-solid fa-trash"></i></button>
                         </div>
+                    </div>`;
+            });
+        }
+
+        // UPI Details Logic
+        function loadUPIData() {
+            const allUpi = JSON.parse(localStorage.getItem('riseup_payouts')) || {};
+            const container = document.getElementById('upiList');
+            const keys = Object.keys(allUpi);
+
+            if (keys.length === 0) {
+                container.innerHTML = `<div class="empty-state">No UPI details saved by leaders.</div>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            keys.forEach(leaderCode => {
+                container.innerHTML += `
+                    <div class="control-card upi-card">
+                        <div class="card-info">
+                            <h3>${leaderCode}</h3>
+                            <p>Leader Payment Address</p>
+                            <span class="upi-id">${allUpi[leaderCode]}</span>
+                        </div>
+                        <i class="fa-solid fa-money-check-dollar" style="font-size: 24px; color: #000;"></i>
                     </div>`;
             });
         }
@@ -96,7 +142,7 @@
         }
 
         function deleteClaim(index) {
-            if(confirm("Kya aap ye record delete karna chahte hain?")) {
+            if(confirm("Delete this record?")) {
                 let allClaims = JSON.parse(localStorage.getItem('riseup_claims')) || [];
                 allClaims.splice(index, 1);
                 localStorage.setItem('riseup_claims', JSON.stringify(allClaims));
