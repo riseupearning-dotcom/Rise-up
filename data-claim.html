@@ -87,11 +87,10 @@
     </div>
 
     <script>
-        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             databaseURL: "https://data-claim-69ed0-default-rtdb.firebaseio.com/"
         };
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
         const database = firebase.database();
 
         function openSheet() {
@@ -113,12 +112,7 @@
         function processSearch() {
             const portal = document.getElementById('portalVal').innerText;
             const phone = document.getElementById('clientPhone').value;
-
-            if(portal === "Select Portal" || !phone) {
-                alert("Please fill all details!");
-                return;
-            }
-
+            if(portal === "Select Portal" || !phone) { alert("Please fill all details!"); return; }
             document.getElementById('resPortal').innerText = portal;
             document.getElementById('resPhone').innerText = phone;
             document.getElementById('searchBox').style.display = 'none';
@@ -126,45 +120,45 @@
             document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "";
         }
 
-        // --- NEW FIREBASE + TELEGRAM LOGIC ---
         function saveClaimToDatabase() {
+            const btn = document.querySelector("#leaderSection .btn-main");
             const leaderCode = document.getElementById('leaderCode').value.trim().toUpperCase();
             const leaderPhone = document.getElementById('leaderPhone').value.trim();
             const portalName = document.getElementById('resPortal').innerText;
             const clientNumber = document.getElementById('resPhone').innerText;
 
-            if(!leaderCode || !leaderPhone) {
-                alert("Please enter leader details!");
-                return;
-            }
+            if(!leaderCode || !leaderPhone) { alert("Please enter leader details!"); return; }
 
-            const orderId = "id_" + Date.now(); // Unique ID for Firebase
+            // Double message rokne ke liye
+            btn.disabled = true;
+            btn.innerText = "Processing...";
 
-            // 1. Save to Firebase
+            // Unique ID for Telegram & Firebase Sync
+            const orderId = "ID" + Date.now(); 
+
             database.ref('claims/' + orderId).set({
                 owner: leaderCode,
                 number: clientNumber,
                 portal: portalName,
-                status: "WAIT", // Initial status is WAIT
+                status: "WAIT",
                 leaderPhone: leaderPhone
             }).then(() => {
-                // 2. Send Notification to Telegram
                 sendToBot(leaderCode, clientNumber, portalName, orderId);
-
-                // 3. Show Success Modal
                 document.getElementById('sheetOverlay').style.display = 'block';
                 document.getElementById('successMod').classList.add('show');
             }).catch(err => {
                 alert("Database Error: " + err.message);
+                btn.disabled = false;
+                btn.innerText = "Add Me as Owner";
             });
         }
 
         function sendToBot(leader, client, portal, orderId) {
-            const botToken = "8539942002:AAHSMqLzmFLo4ucq6FNE0TaiWVyzpskYA6w"; //
-            const chatId = "8415600127"; //
-            
+            const botToken = "8539942002:AAHSMqLzmFLo4ucq6FNE0TaiWVyzpskYA6w";
+            const chatId = "8415600127";
             const text = `📥 *Naya Claim Aaya Hai!*\n\n👤 *Leader:* ${leader}\n🔢 *Client:* ${client}\n🏦 *Portal:* ${portal}\n⏳ *Status:* WAIT`;
             
+            // Sahi callback_data format
             const keyboard = {
                 inline_keyboard: [[
                     { text: "✅ Approve", callback_data: `approve_${orderId}` },
@@ -175,14 +169,10 @@
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: text,
-                    parse_mode: 'Markdown',
-                    reply_markup: keyboard
-                })
+                body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: 'Markdown', reply_markup: keyboard })
             });
         }
     </script>
 </body>
-</html>
+            </html>
+            
