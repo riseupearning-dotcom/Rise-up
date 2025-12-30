@@ -8,95 +8,83 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #fcfcfc; color: #1a1a1a; }
-        
-        /* Monday Alert Banner */
         .notice-banner { background: #fff9db; color: #f08c00; padding: 15px; text-align: center; font-weight: 800; font-size: 14px; border-bottom: 1px solid #ffe066; }
-        
         header { background: #fff; padding: 18px 25px; display: flex; align-items: center; border-bottom: 1px solid #f0f0f0; }
         header h1 { font-size: 22px; font-weight: 800; flex: 1; text-align: center; }
-        
         .main-content { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
         .payment-card { background: #fff; border-radius: 30px; padding: 35px 25px; width: 100%; max-width: 500px; box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #f1f1f1; text-align: center; }
-        
-        .payment-card i { font-size: 50px; color: #000; margin-bottom: 20px; }
-        .payment-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .payment-card p { color: #636e72; font-size: 14px; margin-bottom: 30px; }
-
         .form-group { text-align: left; margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 800; color: #adb5bd; text-transform: uppercase; margin-bottom: 8px; margin-left: 5px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 800; color: #adb5bd; text-transform: uppercase; margin-bottom: 8px; }
         .form-group input { width: 100%; padding: 16px 20px; border: 1.5px solid #e0e0e0; border-radius: 14px; outline: none; font-size: 16px; font-weight: 700; background: #f9f9f9; }
-        .form-group input:focus { border-color: #000; background: #fff; }
-        .form-group input[readonly] { background: #eee; color: #777; cursor: not-allowed; }
-
-        .btn-save { width: 100%; background: #000; color: #fff; border: none; padding: 18px; border-radius: 14px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        .btn-save:active { transform: scale(0.98); }
-
-        .success-msg { display: none; margin-top: 15px; color: #0ca678; font-weight: 700; font-size: 14px; }
+        .btn-save { width: 100%; background: #000; color: #fff; border: none; padding: 18px; border-radius: 14px; font-weight: 700; cursor: pointer; }
+        #statusMsg { margin-top: 15px; font-weight: 700; font-size: 14px; display: none; }
     </style>
 </head>
 <body>
-
-    <div class="notice-banner">
-        <i class="fa-solid fa-calendar-check"></i> NOTICE: Payment will be processed every Monday!
-    </div>
-
-    <header>
-        <a href="home.html" style="color: #000; font-size: 20px;"><i class="fa-solid fa-arrow-left"></i></a>
-        <h1>Payment Detail</h1>
-    </header>
-
+    <div class="notice-banner"><i class="fa-solid fa-calendar-check"></i> NOTICE: Payment processed every Monday!</div>
+    <header><a href="home.html" style="color:#000;"><i class="fa-solid fa-arrow-left"></i></a><h1>Payment Detail</h1></header>
     <main class="main-content">
         <div class="payment-card">
-            <i class="fa-solid fa-credit-card"></i>
+            <i class="fa-solid fa-credit-card" style="font-size: 50px; margin-bottom: 20px;"></i>
             <h2>Payout Profile</h2>
-            <p>Setup your UPI ID where you want to receive your earnings.</p>
-
+            <p>Setup your UPI ID to receive earnings.</p>
             <div class="form-group">
                 <label>Leader Code</label>
                 <input type="text" id="leaderCode" readonly>
             </div>
-
             <div class="form-group">
                 <label>UPI ID (e.g. name@upi)</label>
                 <input type="text" id="upiInput" placeholder="Enter your UPI ID">
             </div>
-
-            <button class="btn-save" onclick="savePayment()">Save Payment Info</button>
-            <div id="msg" class="success-msg">UPI Updated Successfully! ✅</div>
+            <button class="btn-save" id="saveBtn" onclick="savePayment()">Save Payment Info</button>
+            <div id="statusMsg"></div>
         </div>
     </main>
-
     <script>
-        // Page load hote hi Leader Code bhar do
-        window.onload = function() {
-            const savedCode = localStorage.getItem('userCode') || "RU05";
-            document.getElementById('leaderCode').value = savedCode;
+        // API URL updated based on your SheetDB link
+        const API_URL = "https://sheetdb.io/api/v1/ordxis5n7cda9";
 
-            // Agar pehle se UPI save hai toh dikhao
-            const allUpi = JSON.parse(localStorage.getItem('riseup_payouts')) || {};
-            if(allUpi[savedCode]) {
-                document.getElementById('upiInput').value = allUpi[savedCode];
-            }
+        window.onload = function() {
+            document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "RU05";
         };
 
-        function savePayment() {
+        async function savePayment() {
             const upi = document.getElementById('upiInput').value.trim();
-            const code = document.getElementById('leaderCode').value;
+            const owner = document.getElementById('leaderCode').value;
+            const msg = document.getElementById('statusMsg');
+            const btn = document.getElementById('saveBtn');
 
-            if(!upi.includes('@')) {
-                alert("Please enter a valid UPI ID!");
-                return;
+            if(!upi.includes('@')) return alert("Invalid UPI ID!");
+
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+            msg.style.display = "block";
+            msg.style.color = "#f08c00";
+            msg.innerText = "Connecting to cloud...";
+
+            try {
+                // Pehle check karte hain agar is leader ki UPI pehle se hai toh use update karenge
+                await fetch(API_URL + "/owner/" + owner, { method: 'DELETE' });
+
+                // Nayi UPI entry add karna
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        "data": [{ "owner": owner, "upi": upi, "status": "UPI_UPDATED" }]
+                    })
+                });
+
+                if(response.ok) {
+                    msg.style.color = "#0ca678";
+                    msg.innerText = "UPI Saved Successfully! ✅";
+                }
+            } catch (e) {
+                msg.style.color = "#e74c3c";
+                msg.innerText = "Error saving data. Try again.";
             }
-
-            // Save in LocalStorage
-            let allUpi = JSON.parse(localStorage.getItem('riseup_payouts')) || {};
-            allUpi[code] = upi;
-            localStorage.setItem('riseup_payouts', JSON.stringify(allUpi));
-
-            // Show success message
-            const msg = document.getElementById('msg');
-            msg.style.display = 'block';
-            setTimeout(() => { msg.style.display = 'none'; }, 3000);
+            btn.disabled = false;
+            btn.innerText = "Save Payment Info";
         }
     </script>
 </body>
