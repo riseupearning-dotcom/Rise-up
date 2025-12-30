@@ -6,12 +6,14 @@
     <title>Rise Up | Home & Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- Base Setup --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: #fcfcfc; color: #1a1a1a; overflow-x: hidden; }
         header { background: #fff; padding: 18px 25px; display: flex; align-items: center; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100; }
         .menu-btn { font-size: 22px; cursor: pointer; border: none; background: none; color: #333; display: flex; align-items: center; }
         header h1 { font-size: 24px; font-weight: 700; flex: 1; text-align: center; margin-right: 22px; letter-spacing: -0.5px; }
         
+        /* --- Sidebar --- */
         .sidebar { position: fixed; top: 0; left: -100%; width: 310px; height: 100%; background: #fff; z-index: 1001; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px; box-shadow: 15px 0 40px rgba(0,0,0,0.06); }
         .sidebar.active { left: 0; }
         .sidebar-header { display: flex; justify-content: flex-end; margin-bottom: 10px; }
@@ -20,24 +22,21 @@
         .user-profile i { font-size: 45px; color: #2d3436; }
         .user-info p { font-size: 12px; color: #95a5a6; font-weight: 700; text-transform: uppercase; }
         .user-info h3 { font-size: 20px; font-weight: 800; color: #1a1a1a; }
-        
         .nav-link { display: flex; align-items: center; gap: 18px; padding: 18px 20px; text-decoration: none; color: #4b4b4b; font-weight: 600; font-size: 19px; border-radius: 14px; margin-bottom: 10px; transition: 0.2s; }
         .nav-link.active { background: #f8faff; color: #000; border-left: 5px solid #000; }
         
+        /* --- Main UI --- */
         .main-content { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
         .performance-card { background: #fff; border-radius: 30px; padding: 40px 30px; width: 100%; max-width: 650px; box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #f1f1f1; margin-bottom: 25px; }
         .performance-card h2 { font-size: 26px; font-weight: 800; margin-bottom: 15px; }
         .performance-card p { font-size: 15px; color: #636e72; margin-bottom: 30px; line-height: 1.6; }
-        
         .search-group { display: flex; gap: 12px; flex-wrap: wrap; }
         .search-group input { flex: 1; min-width: 200px; padding: 16px 20px; border: 1.5px solid #e0e0e0; border-radius: 14px; outline: none; font-size: 16px; font-weight: 700; text-transform: uppercase; }
         .btn-search { background: #000; color: #fff; border: none; padding: 16px 30px; border-radius: 14px; font-weight: 700; cursor: pointer; }
 
         #dashboardResults { display: none; width: 100%; max-width: 650px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         .stat-banner { background: #000; color: #fff; padding: 30px; border-radius: 25px; margin-bottom: 20px; }
-        .stat-banner p { font-size: 12px; opacity: 0.7; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         .stat-banner h2 { font-size: 48px; font-weight: 800; margin-top: 5px; }
         
         .portal-card { background: #fff; border-radius: 25px; padding: 22px; margin-bottom: 15px; border: 1px solid #f1f1f1; }
@@ -47,11 +46,11 @@
         th { text-align: left; font-size: 11px; color: #adb5bd; text-transform: uppercase; padding-bottom: 10px; font-weight: 700; }
         td { padding: 15px 0; font-size: 15px; font-weight: 800; border-top: 1px solid #f9f9f9; }
         
-        /* --- Fixed Badges Colors --- */
+        /* --- Strict Badge Control --- */
         .badge { padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; }
-        .approve-badge { background: #e6fcf5; color: #0ca678; } /* Green */
-        .disapprove-badge { background: #fff5f5; color: #fa5252; } /* Red */
-        .wait-badge { background: #fff9db; color: #f08c00; } /* Yellow */
+        .wait-badge { background: #fff9db; color: #f08c00; } /* Yellow for WAIT only */
+        .approve-badge { background: #e6fcf5; color: #0ca678; } /* Green for APPROVE */
+        .disapprove-badge { background: #fff5f5; color: #fa5252; } /* Red for DISAPPROVED */
         
         .dimmer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; backdrop-filter: blur(2px); }
         .dimmer.show { display: block; }
@@ -145,19 +144,30 @@
                             <tbody>`;
                 
                 pData.forEach((row, idx) => {
-                    // --- Logic for status ---
-                    let badgeStyle = "wait-badge"; 
-                    let statusText = row.status || "WAIT"; 
+                    // --- Strictly control status display ---
+                    let dbStatus = (row.status || "WAIT").toUpperCase();
+                    let displayStatus = "WAIT"; // Default status
+                    let badgeStyle = "wait-badge";
 
-                    if(statusText === "APPROVE") badgeStyle = "approve-badge";
-                    if(statusText === "DISAPPROVED") badgeStyle = "disapprove-badge";
+                    // Sirf ye do condition par hi status badlega
+                    if(dbStatus === "APPROVE") {
+                        displayStatus = "APPROVE";
+                        badgeStyle = "approve-badge";
+                    } else if(dbStatus === "DISAPPROVED") {
+                        displayStatus = "DISAPPROVED";
+                        badgeStyle = "disapprove-badge";
+                    } else {
+                        // Agar status 'DONE' ya kuch aur hai, toh force WAIT dikhao
+                        displayStatus = "WAIT";
+                        badgeStyle = "wait-badge";
+                    }
 
                     tableHtml += `
                         <tr>
                             <td>${idx + 1}</td>
                             <td style="letter-spacing:1px;">${row.number}</td> 
                             <td style="color:#555;">${row.owner}</td>
-                            <td><span class="badge ${badgeStyle}">${statusText}</span></td>
+                            <td><span class="badge ${badgeStyle}">${displayStatus}</span></td>
                         </tr>`;
                 });
 
