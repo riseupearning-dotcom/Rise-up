@@ -11,11 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        /* Sukoon wala font aur background */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
-            background: #f8fafc; /* Halka blue-grey jo chubhta nahi */
+            background: #f8fafc; 
             display: flex; 
             flex-direction: column;
             justify-content: center; 
@@ -27,7 +26,7 @@
             background: #ffffff; 
             padding: 45px 35px; 
             border-radius: 24px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Soft shadow */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
             width: 90%; 
             max-width: 400px; 
             text-align: center;
@@ -47,15 +46,31 @@
         .input-group label { font-size: 11px; font-weight: 700; display: block; margin-bottom: 8px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .field-input { position: relative; }
-        .field-input i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; }
         
+        /* Icon initial style */
+        .field-input i { 
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%); 
+            color: #94a3b8; font-size: 15px; transition: all 0.3s ease; 
+        }
+        
+        /* Input column design */
         .field-input input { 
-            width: 100%; padding: 14px 15px 14px 48px; border: 1.5px solid #e2e8f0; 
-            border-radius: 12px; outline: none; font-size: 15px; transition: 0.3s; 
+            width: 100%; padding: 14px 15px 14px 48px; border: 2px solid #e2e8f0; 
+            border-radius: 12px; outline: none; font-size: 15px; transition: all 0.3s ease; 
             background: #fdfdfd; color: #1e293b;
         }
         
-        .field-input input:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        /* 🔥 Column Glow Effect: Jab user click karega */
+        .field-input input:focus { 
+            border-color: #3b82f6; /* Blue border */
+            background: #fff; 
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); /* Soft Blue Glow */
+        }
+
+        /* Icon color badal jayega jab user column mein hoga */
+        .field-input input:focus + i { 
+            color: #3b82f6; 
+        }
 
         #lcode { text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
 
@@ -66,7 +81,6 @@
         }
         .login-btn:hover { background: #0f172a; transform: translateY(-1px); }
 
-        /* Clean & Bold Footer */
         .footer-trust { margin-top: 40px; text-align: center; }
         .footer-trust p { color: #475569; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
         
@@ -90,16 +104,16 @@
             <div class="input-group">
                 <label>Phone Number</label>
                 <div class="field-input">
-                    <i class="fa-solid fa-phone"></i>
                     <input type="tel" id="phone" placeholder="Enter number" required>
+                    <i class="fa-solid fa-phone"></i>
                 </div>
             </div>
 
             <div class="input-group">
                 <label>Leader Code</label>
                 <div class="field-input">
-                    <i class="fa-solid fa-key"></i>
                     <input type="text" id="lcode" placeholder="RUXXXX" required>
+                    <i class="fa-solid fa-key"></i>
                 </div>
             </div>
 
@@ -138,7 +152,6 @@
                     window.location.href = "home.html";
                 });
             } else {
-                // Modern Soft Error
                 Swal.fire({
                     icon: 'error',
                     title: 'Invalid Access',
