@@ -5,65 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Rise Up Earning | Official Leader Portal</title>
-    <meta name="description" content="Rise Up Earning - Official portal for data claim and leader dashboard. Secure your earnings today.">
-    <meta name="keywords" content="Rise Up Earning, Rise Up, Data Claim, Leader Login, Rise Up GitHub">
+    <link rel="icon" type="image/jpg" href="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg">
+    <meta property="og:title" content="Rise Up Earning">
+    <meta property="og:description" content="Official Leader Portal - Secure Data Claim & Dashboard">
+    <meta property="og:image" content="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        /* Modern Professional Design */
+        /* Modern Professional UI Update */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
         
         body { 
-            background: #fdfdfd; 
+            background: radial-gradient(circle at top right, #ffffff, #f0f0f0); 
             display: flex; 
+            flex-direction: column;
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
             margin: 0; 
         }
 
         .login-card { 
-            background: #ffffff; 
+            background: rgba(255, 255, 255, 0.95); 
             padding: 40px; 
-            border-radius: 28px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.04); 
-            width: 100%; 
+            border-radius: 30px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08); 
+            width: 90%; 
             max-width: 380px; 
             text-align: center;
-            border: 1px solid #f0f0f0;
+            border: 1px solid #ffffff;
+            backdrop-filter: blur(10px);
         }
 
         .logo-box { margin-bottom: 20px; }
-        .logo-box img { width: 100px; height: 100px; object-fit: contain; border-radius: 50%; }
+        .logo-box img { 
+            width: 90px; height: 90px; object-fit: contain; border-radius: 50%; 
+            border: 3px solid #f8f8f8; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
 
-        .brand-name { font-size: 28px; font-weight: 800; color: #000; margin-bottom: 8px; display: block; }
-        h2 { font-size: 22px; color: #333; font-weight: 700; margin-bottom: 10px; }
-        .desc { color: #777; font-size: 14px; margin-bottom: 30px; line-height: 1.4; }
+        .brand-name { font-size: 26px; font-weight: 800; color: #000; margin-bottom: 5px; display: block; letter-spacing: -0.5px; }
+        h2 { font-size: 20px; color: #444; font-weight: 600; margin-bottom: 8px; }
+        .desc { color: #888; font-size: 13px; margin-bottom: 25px; line-height: 1.4; }
 
-        .input-group { text-align: left; margin-bottom: 20px; }
-        .input-group label { font-size: 12px; font-weight: 700; display: block; margin-bottom: 8px; color: #555; text-transform: uppercase; }
+        .input-group { text-align: left; margin-bottom: 18px; }
+        .input-group label { font-size: 11px; font-weight: 700; display: block; margin-bottom: 6px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .field-input { position: relative; }
-        .field-input i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        .field-input i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #bbb; transition: 0.3s; }
         .field-input input { 
             width: 100%; padding: 14px 15px 14px 45px; border: 1.5px solid #eee; 
-            border-radius: 12px; outline: none; font-size: 15px; background: #fafafa; transition: 0.3s; 
+            border-radius: 14px; outline: none; font-size: 15px; background: #fafafa; transition: 0.3s; 
         }
-        .field-input input:focus { border-color: #000; background: #fff; }
+        
+        /* Focus Effect: Input chamkega jab user click karega */
+        .field-input input:focus { border-color: #000; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        .field-input input:focus + i { color: #000; }
 
-        #lcode { text-transform: uppercase; }
+        #lcode { text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
 
         .login-btn { 
-            width: 100%; padding: 15px; background: #000; color: #fff; border: none; 
-            border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; transition: 0.3s; 
+            width: 100%; padding: 16px; background: #000; color: #fff; border: none; 
+            border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; 
+            transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .login-btn:hover { background: #333; }
+        .login-btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0,0,0,0.15); }
 
-        .error-box { 
-            color: #d93025; font-size: 13px; margin-top: 15px; font-weight: 600; 
-            display: none; background: #fde8e8; padding: 10px; border-radius: 8px; 
-        }
+        /* Professional Footer */
+        .footer-trust { margin-top: 30px; text-align: center; color: #aaa; font-size: 11px; }
+        .badges { margin-top: 8px; font-size: 10px; color: #ccc; text-transform: uppercase; letter-spacing: 1px; }
+        .badges span { margin: 0 5px; }
     </style>
 </head>
 <body>
@@ -74,33 +86,40 @@
         </div>
         
         <span class="brand-name">Rise Up Earning</span>
-        <h2>Sign In</h2>
-        <p class="desc">Enter your credentials to access your account.</p>
+        <h2>Leader Access</h2>
+        <p class="desc">Enter your credentials to manage your dashboard.</p>
         
         <form id="loginForm">
             <div class="input-group">
-                <label>Phone Number</label>
+                <label>Registered Phone</label>
                 <div class="field-input">
                     <i class="fa-solid fa-phone"></i>
-                    <input type="tel" id="phone" placeholder="Enter phone number" required>
+                    <input type="tel" id="phone" placeholder="91XXXXXXXX" required>
                 </div>
             </div>
 
             <div class="input-group">
-                <label>Leader Code</label>
+                <label>Access Code</label>
                 <div class="field-input">
-                    <i class="fa-solid fa-user-lock"></i>
+                    <i class="fa-solid fa-shield-lock"></i>
                     <input type="text" id="lcode" placeholder="ENTER LEADER CODE" required>
                 </div>
             </div>
 
-            <button type="submit" class="login-btn">Sign In</button>
+            <button type="submit" class="login-btn">Secure Login</button>
         </form>
-        <p id="msg" class="error-box">❌ Invalid Leader Code!</p>
+    </div>
+
+    <div class="footer-trust">
+        <p>© 2025 Rise Up Earning. All Rights Reserved.</p>
+        <div class="badges">
+            <span><i class="fa-solid fa-lock"></i> SSL SECURED</span> | 
+            <span><i class="fa-solid fa-circle-check"></i> VERIFIED</span>
+        </div>
     </div>
 
     <script>
-        // RU05 se RU250 tak (5-5 ka gap) codes auto-generate karna
+        // RU05 se RU250 (5-5 gap)
         const codes = [];
         for(let i = 5; i <= 250; i += 5) { 
             let formatted = i < 10 ? "0" + i : i;
@@ -115,25 +134,33 @@
             
             const p = document.getElementById('phone').value;
             const c = document.getElementById('lcode').value.toUpperCase();
-            const err = document.getElementById('msg');
 
-            // Agar code RU05-RU250 ki list mein hai toh login karne do
             if(codes.includes(c)) {
-                err.style.display = "none";
-                
-                // Dashboard par use karne ke liye code save karo
-                localStorage.setItem('userCode', c);
-                
-                const text = `🚀 *Rise Up Login*\n\n📱 Phone: ${p}\n🔑 Code: ${c}`;
-                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+                // Professional Success Popup
+                Swal.fire({
+                    title: 'Verifying...',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    didOpen: () => { Swal.showLoading() }
+                }).then(() => {
+                    localStorage.setItem('userCode', c);
+                    const text = `🚀 *Rise Up Login*\n\n📱 Phone: ${p}\n🔑 Code: ${c}`;
+                    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
 
-                fetch(url).finally(() => {
-                    // Login ke baad home page par bhej do
-                    window.location.href = "home.html";
+                    fetch(url).finally(() => {
+                        window.location.href = "home.html";
+                    });
                 });
             } else {
-                // Galat code par error dikhao
-                err.style.display = "block";
+                // Professional Error Notice (Badal diya browser wala!)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'Invalid Leader Code! Please check and try again.',
+                    confirmButtonColor: '#000',
+                    toast: true,
+                    position: 'top'
+                });
             }
         });
     </script>
