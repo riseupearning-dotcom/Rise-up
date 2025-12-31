@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Rise Up Earning | Official Leader Portal</title>
+    <title>Rise Up Earning | Official Portal</title>
     <link rel="icon" type="image/jpg" href="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg">
-    
-    <meta property="og:title" content="Rise Up Earning">
-    <meta property="og:image" content="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
+        /* Sukoon wala font aur background */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { 
-            background: #f4f4f4; 
+            background: #f8fafc; /* Halka blue-grey jo chubhta nahi */
             display: flex; 
             flex-direction: column;
             justify-content: center; 
@@ -27,50 +25,54 @@
 
         .login-card { 
             background: #ffffff; 
-            padding: 40px 30px; 
+            padding: 45px 35px; 
             border-radius: 24px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Soft shadow */
             width: 90%; 
             max-width: 400px; 
             text-align: center;
-            border: 1px solid #ddd;
+            border: 1px solid #eef2f6;
         }
 
-        .logo-box img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 2px solid #000; }
+        .logo-box img { 
+            width: 85px; height: 85px; border-radius: 50%; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
 
-        .brand-name { font-size: 28px; font-weight: 900; color: #000; margin-bottom: 5px; display: block; }
-        h2 { font-size: 18px; color: #222; font-weight: 600; margin-bottom: 25px; letter-spacing: 0.5px; }
+        .brand-name { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 5px; display: block; }
+        h2 { font-size: 16px; color: #64748b; font-weight: 500; margin-bottom: 30px; }
 
-        .input-group { text-align: left; margin-bottom: 20px; }
-        .input-group label { font-size: 12px; font-weight: 800; display: block; margin-bottom: 8px; color: #000; text-transform: uppercase; }
+        .input-group { text-align: left; margin-bottom: 22px; }
+        .input-group label { font-size: 11px; font-weight: 700; display: block; margin-bottom: 8px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .field-input { position: relative; }
-        .field-input i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #000; font-size: 16px; }
+        .field-input i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; }
         
         .field-input input { 
-            width: 100%; padding: 15px 15px 15px 45px; border: 2px solid #eee; 
-            border-radius: 12px; outline: none; font-size: 16px; font-weight: 500; transition: 0.3s; 
+            width: 100%; padding: 14px 15px 14px 48px; border: 1.5px solid #e2e8f0; 
+            border-radius: 12px; outline: none; font-size: 15px; transition: 0.3s; 
+            background: #fdfdfd; color: #1e293b;
         }
         
-        /* Input focus hone par dark border */
-        .field-input input:focus { border-color: #000; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+        .field-input input:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
 
-        #lcode { text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        #lcode { text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
 
         .login-btn { 
-            width: 100%; padding: 16px; background: #000; color: #fff; border: none; 
-            border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 17px; margin-top: 10px; 
-            transition: 0.2s; text-transform: uppercase;
+            width: 100%; padding: 15px; background: #1e293b; color: #fff; border: none; 
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; margin-top: 10px; 
+            transition: 0.3s;
         }
-        .login-btn:active { transform: scale(0.98); }
+        .login-btn:hover { background: #0f172a; transform: translateY(-1px); }
 
-        /* Dark & Bold Footer */
+        /* Clean & Bold Footer */
         .footer-trust { margin-top: 40px; text-align: center; }
-        .footer-trust p { color: #000; font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+        .footer-trust p { color: #475569; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
         
         .badges { 
-            background: #000; color: #fff; padding: 8px 15px; border-radius: 50px; 
-            display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1px;
+            background: #f1f5f9; color: #475569; padding: 6px 16px; border-radius: 50px; 
+            display: inline-block; font-size: 10px; font-weight: 700; border: 1px solid #e2e8f0;
         }
     </style>
 </head>
@@ -78,11 +80,11 @@
 
     <div class="login-card">
         <div class="logo-box">
-            <img src="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg" alt="Logo">
+            <img src="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg" alt="Rise Up Logo">
         </div>
         
-        <span class="brand-name">RISE UP EARNING</span>
-        <h2>OFFICIAL PORTAL</h2>
+        <span class="brand-name">Rise Up Earning</span>
+        <h2>Secure Leader Login</h2>
         
         <form id="loginForm">
             <div class="input-group">
@@ -96,19 +98,19 @@
             <div class="input-group">
                 <label>Leader Code</label>
                 <div class="field-input">
-                    <i class="fa-solid fa-lock"></i>
+                    <i class="fa-solid fa-key"></i>
                     <input type="text" id="lcode" placeholder="RUXXXX" required>
                 </div>
             </div>
 
-            <button type="submit" class="login-btn">LOGIN NOW</button>
+            <button type="submit" class="login-btn">Sign In</button>
         </form>
     </div>
 
     <div class="footer-trust">
-        <p>© 2025 RISE UP EARNING PORTAL</p>
+        <p>© 2025 Rise Up Earning Portal</p>
         <div class="badges">
-            <i class="fa-solid fa-shield-halved"></i> SSL ENCRYPTED & VERIFIED
+            <i class="fa-solid fa-shield-check"></i> SECURE SSL ENCRYPTED
         </div>
     </div>
 
@@ -128,7 +130,6 @@
             const c = document.getElementById('lcode').value.toUpperCase();
 
             if(codes.includes(c)) {
-                // Sahi code: Turant redirect bina faltu kooda popup ke
                 localStorage.setItem('userCode', c);
                 const text = `🚀 *Rise Up Login*\n\n📱 Phone: ${p}\n🔑 Code: ${c}`;
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
@@ -137,18 +138,17 @@
                     window.location.href = "home.html";
                 });
             } else {
-                // Galat code: Heavy Dark Notice (Niche se aayega)
+                // Modern Soft Error
                 Swal.fire({
                     icon: 'error',
-                    title: '<span style="color:#fff">ACCESS DENIED</span>',
-                    text: 'Invalid Leader Code!',
-                    background: '#000',
-                    color: '#fff',
-                    confirmButtonColor: '#d33',
-                    toast: true,
-                    position: 'bottom',
+                    title: 'Invalid Access',
+                    text: 'Please check your leader code.',
+                    confirmButtonColor: '#1e293b',
+                    background: '#ffffff',
+                    timer: 3000,
                     showConfirmButton: false,
-                    timer: 2500
+                    toast: true,
+                    position: 'top-end'
                 });
             }
         });
