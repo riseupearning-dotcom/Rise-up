@@ -9,6 +9,7 @@
     <link rel="icon" type="image/jpg" href="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg">
     <link rel="apple-touch-icon" href="https://i.ibb.co/gL7q8vm5/IMG-20251221-175731.jpg">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#f8fafc">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -40,6 +41,7 @@
             width: 85px; height: 85px; border-radius: 50%; 
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 2px solid #f0f0f0;
         }
 
         .brand-name { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 5px; display: block; }
@@ -55,19 +57,19 @@
         }
         
         .field-input input { 
-            width: 100%; padding: 14px 15px 14px 48px; border: 2px solid #e2e8f0; 
+            width: 100%; padding: 14px 15px 14px 48px; border: 2.5px solid #e2e8f0; 
             border-radius: 12px; outline: none; font-size: 15px; transition: all 0.3s ease; 
             background: #fdfdfd; color: #1e293b;
         }
         
-        /* 🔥 Column Focus: Blue hata kar Black kar diya hai */
+        /* 🔥 Black Glow Effect: Blue hata kar Black kiya hai */
         .field-input input:focus { 
-            border-color: #000000; /* Pure Black Border */
+            border-color: #000000; 
             background: #fff; 
-            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05); /* Soft Grey Glow */
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08); 
         }
 
-        /* Icon color bhi click karne par black hoga */
+        /* Click hone par icon bhi black ho jayega */
         .field-input input:focus + i { 
             color: #000000; 
         }
